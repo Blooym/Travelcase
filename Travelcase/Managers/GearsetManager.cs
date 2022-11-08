@@ -59,7 +59,7 @@ namespace Travelcase.Managers
                     return;
                 }
 
-                PluginLog.Debug($"GearsetManager(OnTerritoryChange): Territory changed to {territory}, and config is enabled, attmepting to apply gearset.");
+                PluginLog.Debug($"GearsetManager(OnTerritoryChange): Territory changed to {territory}, and config is enabled, attempting to apply gearset.");
                 this.storedTerritory = territory;
 
                 new Task(() =>
