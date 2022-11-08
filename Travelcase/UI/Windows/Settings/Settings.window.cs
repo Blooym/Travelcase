@@ -112,7 +112,7 @@ namespace Travelcase.UI.Windows.Settings
                     {
                         var configForGearset = config.GearsetBindings.ContainsKey(t.RowId) ? config.GearsetBindings[t.RowId] : config.GearsetBindings[t.RowId] = new() { Name = t.PlaceName.Value?.Name ?? string.Empty };
                         var isEnabled = configForGearset.Enabled;
-                        var slot = configForGearset.Number + 1;
+                        var slot = configForGearset.GearsetNumber + 1;
                         var glamourPlate = (int)configForGearset.GlamourPlate;
 
                         ImGui.TableNextRow();
@@ -142,7 +142,7 @@ namespace Travelcase.UI.Windows.Settings
                                 slot = 100;
                             }
 
-                            configForGearset.Number = slot - 1;
+                            configForGearset.GearsetNumber = slot - 1;
                             config.Save();
                         }
                         ImGui.TableSetColumnIndex(3);

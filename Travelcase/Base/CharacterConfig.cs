@@ -24,7 +24,7 @@ namespace Travelcase.Base
         public class Gearset
         {
             public string Name { get; set; } = string.Empty;
-            public int Number { get; set; }
+            public int GearsetNumber { get; set; }
             public byte GlamourPlate { get; set; }
             public bool Enabled { get; set; }
             public DateTime GeneratedOn { get; set; } = DateTime.Now;

@@ -85,9 +85,9 @@ namespace Travelcase.Managers
                                 return;
                             }
 
-                            if (gearset.Number is > 100 or < 0)
+                            if (gearset.GearsetNumber is > 100 or < 0)
                             {
-                                PluginLog.Warning($"GearsetManager(OnTerritoryChange): Gearset number {gearset.Number} is not a valid value, skipping gearset change.");
+                                PluginLog.Warning($"GearsetManager(OnTerritoryChange): Gearset number {gearset.GearsetNumber} is not a valid value, skipping gearset change.");
                                 return;
                             }
 
@@ -100,7 +100,7 @@ namespace Travelcase.Managers
                                 Task.Delay(1000).Wait();
                             }
 
-                            this.ChangeGearset(gearset.Number, gearset.GlamourPlate);
+                            this.ChangeGearset(gearset.GearsetNumber, gearset.GlamourPlate);
                         }
                     }
                     catch (Exception e) { PluginLog.Error(e.ToString()); }
