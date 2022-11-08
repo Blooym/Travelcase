@@ -1,0 +1,19 @@
+name: "PR: Chores"
+
+on:
+  pull_request:
+    branches: [main]
+    types: [ready_for_review, opened, synchronize, reopened]
+
+jobs:
+  Label:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - name: Label PR
+        uses: actions/labeler@v4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          sync-labels: true
