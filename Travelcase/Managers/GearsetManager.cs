@@ -79,7 +79,7 @@ namespace Travelcase.Managers
                                 return;
                             }
 
-                            if (gearset.GlamourPlate is > 19 or < 0)
+                            if (gearset.GlamourPlate is > 20 or < 0)
                             {
                                 PluginLog.Warning($"GearsetManager(OnTerritoryChange): Glamour plate {gearset.GlamourPlate} is not a valid value, skipping gearset change.");
                                 return;

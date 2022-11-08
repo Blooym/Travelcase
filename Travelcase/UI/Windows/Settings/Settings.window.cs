@@ -113,7 +113,7 @@ namespace Travelcase.UI.Windows.Settings
                         var configForGearset = config.GearsetBindings.ContainsKey(t.RowId) ? config.GearsetBindings[t.RowId] : config.GearsetBindings[t.RowId] = new CharacterConfiguration.Gearset();
                         var isEnabled = configForGearset.Enabled;
                         var slot = configForGearset.Number + 1;
-                        var glamourPlate = configForGearset.GlamourPlate + 1;
+                        var glamourPlate = (int)configForGearset.GlamourPlate;
 
                         ImGui.TableNextRow();
                         ImGui.TableSetColumnIndex(0);
@@ -150,16 +150,16 @@ namespace Travelcase.UI.Windows.Settings
                         // Glamour plate input
                         if (ImGui.InputInt($"##{t.RowId}Glam", ref glamourPlate, 1, 1))
                         {
-                            if (glamourPlate < 1)
+                            if (glamourPlate < 0)
                             {
-                                glamourPlate = 1;
+                                glamourPlate = 0;
                             }
                             else if (glamourPlate > 20)
                             {
                                 glamourPlate = 20;
                             }
 
-                            configForGearset.GlamourPlate = (byte)(glamourPlate - 1);
+                            configForGearset.GlamourPlate = Convert.ToByte(glamourPlate);
                             config.Save();
                         }
                         ImGui.SameLine();
