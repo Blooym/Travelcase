@@ -110,7 +110,7 @@ namespace Travelcase.UI.Windows.Settings
 
                     foreach (var t in zonesToDraw)
                     {
-                        var configForGearset = config.GearsetBindings.ContainsKey(t.RowId) ? config.GearsetBindings[t.RowId] : config.GearsetBindings[t.RowId] = new CharacterConfiguration.Gearset();
+                        var configForGearset = config.GearsetBindings.ContainsKey(t.RowId) ? config.GearsetBindings[t.RowId] : config.GearsetBindings[t.RowId] = new() { Name = t.PlaceName.Value?.Name ?? string.Empty };
                         var isEnabled = configForGearset.Enabled;
                         var slot = configForGearset.Number + 1;
                         var glamourPlate = (int)configForGearset.GlamourPlate;

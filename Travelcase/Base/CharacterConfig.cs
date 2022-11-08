@@ -16,15 +16,18 @@ namespace Travelcase.Base
         ///     The current configuration version, incremented on breaking changes.
         /// </summary>
         public int Version { get; set; }
+        public string? CharacterName { get; set; }
         public bool IsEnabled { get; set; } = true;
         public bool OnlyInRoleplayMode { get; set; }
         public Dictionary<uint, Gearset> GearsetBindings { get; set; } = new();
 
         public class Gearset
         {
+            public string Name { get; set; } = string.Empty;
             public int Number { get; set; }
             public byte GlamourPlate { get; set; }
             public bool Enabled { get; set; }
+            public DateTime GeneratedOn { get; set; } = DateTime.Now;
         }
 
         private static string GetConfigDir() => PluginService.PluginInterface.GetPluginConfigDirectory();
@@ -43,6 +46,8 @@ namespace Travelcase.Base
                     PluginLog.Warning("CharacterConfiguration(Save): No ContentID found, not able to save configuration.");
                     return;
                 }
+
+                this.CharacterName = PluginService.ClientState.LocalPlayer?.Name.TextValue;
 
                 Directory.CreateDirectory(GetConfigDir());
                 var configObj = JsonConvert.SerializeObject(this, Formatting.Indented);
@@ -94,7 +99,7 @@ namespace Travelcase.Base
         /// </summary>
         private static CharacterConfiguration NewCharacterConfiguration()
         {
-            var newCharacter = new CharacterConfiguration();
+            var newCharacter = new CharacterConfiguration() { CharacterName = PluginService.ClientState.LocalPlayer?.Name.TextValue };
 
             newCharacter.Save();
             return newCharacter;

@@ -11,11 +11,14 @@ namespace Travelcase.Utils
         public static IEnumerable<TerritoryType>? GetAllowedZones() => PluginService.DataManager.Excel.GetSheet<TerritoryType>()?
             .Where(x =>
                 (
-                    x.TerritoryIntendedUse.ToEnum<TerritoryIntendedUse>() == TerritoryIntendedUse.City
-                    || x.TerritoryIntendedUse.ToEnum<TerritoryIntendedUse>() == TerritoryIntendedUse.OpenWorld
-                    || x.TerritoryIntendedUse.ToEnum<TerritoryIntendedUse>() == TerritoryIntendedUse.Inn
-                    || x.TerritoryIntendedUse.ToEnum<TerritoryIntendedUse>() == TerritoryIntendedUse.Housing
-                    || x.TerritoryIntendedUse.ToEnum<TerritoryIntendedUse>() == TerritoryIntendedUse.Housing2
+                    x.TerritoryIntendedUse.ToEnum<TerritoryIntendedUse>() is TerritoryIntendedUse.City
+                    or TerritoryIntendedUse.OpenWorld
+                    or TerritoryIntendedUse.Inn
+                    or TerritoryIntendedUse.IslandSanctuary
+                    or TerritoryIntendedUse.Housing
+                    or TerritoryIntendedUse.Housing2
+                    or TerritoryIntendedUse.GrandCompany
+                    or TerritoryIntendedUse.GoldSaucer
                 )
                 && !x.IsPvpZone
                 && !string.IsNullOrEmpty(x.PlaceName.Value?.Name.ToString()))
