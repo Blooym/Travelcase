@@ -14,8 +14,8 @@
     "IconUrl": "https://raw.githubusercontent.com/BitsOfAByte/Travelcase/main/.assets/icon.png",
     "IsHide": "False",
     "IsTestingExclusive": "False",
-    "DownloadLinkInstall": "https://api.github.com/repos/BitsOfAByte/Travelcase/releases/latest",
-    "DownloadLinkTesting": "https://api.github.com/repos/BitsOfAByte/Travelcase/releases/latest",
-    "DownloadLinkUpdate": "https://api.github.com/repos/BitsOfAByte/Travelcase/releases/latest"
+    "DownloadLinkInstall": "https://github.com/BitsOfAByte/Travelcase/releases/latest/download/latest.zip",
+    "DownloadLinkTesting": "https://github.com/BitsOfAByte/Travelcase/releases/latest/download/latest.zip",
+    "DownloadLinkUpdate": "https://github.com/BitsOfAByte/Travelcase/releases/latest/download/latest.zip"
   }
 ]
