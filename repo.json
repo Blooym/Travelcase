@@ -9,6 +9,7 @@
     "Description": "Allows for automatic changing of Gearsets/Glamours upon entering new zones, with a 'Roleplay Only' mode for those who want to only use it for RP purposes.",
     "RepoUrl": "https://github.com/BitsOfAByte/Travelcase",
     "Tags": ["utility", "gearset"],
+    "CategoryTags": ["Utility", "Other"],
     "DalamudApiLevel": 7,
     "LoadPriority": 0,
     "IconUrl": "https://raw.githubusercontent.com/BitsOfAByte/Travelcase/main/.assets/icon.png",
