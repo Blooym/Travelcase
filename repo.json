@@ -1,0 +1,21 @@
+[
+  {
+    "Author": "BitsOfAByte",
+    "Name": "Travelcase",
+    "InternalName": "Travelcase",
+    "AssemblyVersion": "0.1.0.0",
+    "ApplicableVersion": "any",
+    "Punchline": "Pack your gearsets & glamours up and change into them when entering specified zones.",
+    "Description": "Allows for automatic changing of Gearsets/Glamours upon entering new zones, with a 'Roleplay Only' mode for those who want to only use it for RP purposes.",
+    "RepoUrl": "https://github.com/BitsOfAByte/Travelcase",
+    "Tags": ["utility", "gearset"],
+    "DalamudApiLevel": 7,
+    "LoadPriority": 0,
+    "IconUrl": "https://raw.githubusercontent.com/BitsOfAByte/Travelcase/main/.assets/icon.png",
+    "IsHide": "False",
+    "IsTestingExclusive": "False",
+    "DownloadLinkInstall": "https://api.github.com/repos/BitsOfAByte/Travelcase/releases/latest",
+    "DownloadLinkTesting": "https://api.github.com/repos/BitsOfAByte/Travelcase/releases/latest",
+    "DownloadLinkUpdate": "https://api.github.com/repos/BitsOfAByte/Travelcase/releases/latest"
+  }
+]
