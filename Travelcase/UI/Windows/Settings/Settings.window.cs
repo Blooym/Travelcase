@@ -1,0 +1,181 @@
+using System;
+using System.Linq;
+using System.Numerics;
+using Dalamud.Interface.Windowing;
+using Dalamud.Utility;
+using ImGuiNET;
+using Travelcase.Base;
+using Travelcase.Localization;
+
+namespace Travelcase.UI.Windows.Settings
+{
+    public sealed class SettingsWindow : Window, IDisposable
+    {
+        internal SettingsPresenter Presenter;
+        public SettingsWindow() : base(TWindowNames.Settings)
+        {
+            this.SizeConstraints = new WindowSizeConstraints
+            {
+                MinimumSize = new Vector2(850, 300),
+                MaximumSize = new Vector2(1200, 1000)
+            };
+            this.Size = new Vector2(850, 450);
+
+            this.SizeCondition = ImGuiCond.FirstUseEver;
+
+            this.Presenter = new SettingsPresenter();
+        }
+        public void Dispose() => this.Presenter.Dispose();
+
+        private string searchQuery = string.Empty;
+
+        public override void Draw()
+        {
+            var config = SettingsPresenter.CurrentConfig;
+            if (config != null)
+            {
+                var globalEnabled = config.IsEnabled;
+                if (ImGui.Checkbox(TSettings.Enable, ref globalEnabled))
+                {
+
+                    switch (globalEnabled)
+                    {
+                        case true:
+                            config.IsEnabled = true;
+                            config.Save();
+                            break;
+                        case false:
+                            config.IsEnabled = false;
+                            config.Save();
+                            break;
+                        default:
+                    }
+                }
+                ImGui.SameLine();
+
+                var onlyInRoleplayMode = config.OnlyInRoleplayMode;
+                if (ImGui.Checkbox(TSettings.OnlyInRoleplayMode, ref onlyInRoleplayMode))
+                {
+                    switch (onlyInRoleplayMode)
+                    {
+                        case true:
+                            config.OnlyInRoleplayMode = true;
+                            config.Save();
+                            break;
+                        case false:
+                            config.OnlyInRoleplayMode = false;
+                            config.Save();
+                            break;
+                        default:
+                    }
+                }
+
+#if DEBUG
+                // Export localization button
+                this.Presenter.DialogManager.Draw();
+                ImGui.SameLine();
+                if (ImGui.Button("Export Localization"))
+                {
+                    this.Presenter.DialogManager.OpenFolderDialog("Export Localization", SettingsPresenter.OnDirectoryPicked);
+                }
+#endif
+
+                // Donate button
+                ImGui.SameLine();
+                if (ImGui.Button("Donate"))
+                {
+                    Util.OpenLink(PluginConstants.DonateButtonUrl);
+                }
+
+                // Search bar for zones.
+                ImGui.BeginDisabled(!globalEnabled);
+                var search = this.searchQuery;
+                ImGui.SetNextItemWidth(-1);
+                if (ImGui.InputTextWithHint("##Search", TSettings.Search, ref search, 100))
+                {
+                    this.searchQuery = search;
+                }
+
+                // Table of all zones.
+                var zonesToDraw = SettingsPresenter.AllowedZones?.Where(z => z.PlaceName?.Value?.Name.ToString().ToLower().Contains(this.searchQuery.ToLower()) ?? false).ToList();
+                if (zonesToDraw != null && zonesToDraw.Count > 0)
+                {
+                    ImGui.BeginTable("##SettingsTable", 4, ImGuiTableFlags.ScrollY);
+                    ImGui.TableSetupScrollFreeze(0, 1);
+                    ImGui.TableSetupColumn(TSettings.Zone);
+                    ImGui.TableSetupColumn(TSettings.Enabled, ImGuiTableColumnFlags.WidthFixed, 100);
+                    ImGui.TableSetupColumn(TSettings.GearsetSlot);
+                    ImGui.TableSetupColumn(TSettings.GlamourPlate);
+                    ImGui.TableHeadersRow();
+
+                    foreach (var t in zonesToDraw)
+                    {
+                        var configForGearset = config.GearsetBindings.ContainsKey(t.RowId) ? config.GearsetBindings[t.RowId] : config.GearsetBindings[t.RowId] = new CharacterConfiguration.Gearset();
+                        var isEnabled = configForGearset.Enabled;
+                        var slot = configForGearset.Number + 1;
+                        var glamourPlate = configForGearset.GlamourPlate + 1;
+
+                        ImGui.TableNextRow();
+                        ImGui.TableSetColumnIndex(0);
+
+                        // Name of the territory
+                        ImGui.Text($"{t.PlaceName.Value?.Name}");
+                        ImGui.TableSetColumnIndex(1);
+
+                        // Enabled checkbox
+                        if (ImGui.Checkbox($"##{t.RowId}", ref isEnabled))
+                        {
+                            configForGearset.Enabled = isEnabled;
+                            config.Save();
+                        }
+                        ImGui.TableSetColumnIndex(2);
+
+                        // Slot input
+                        if (ImGui.InputInt($"##{t.RowId}Slot", ref slot, 1, 1))
+                        {
+                            if (slot < 1)
+                            {
+                                slot = 1;
+                            }
+                            if (slot > 101)
+                            {
+                                slot = 100;
+                            }
+
+                            configForGearset.Number = slot - 1;
+                            config.Save();
+                        }
+                        ImGui.TableSetColumnIndex(3);
+
+                        // Glamour plate input
+                        if (ImGui.InputInt($"##{t.RowId}Glam", ref glamourPlate, 1, 1))
+                        {
+                            if (glamourPlate < 1)
+                            {
+                                glamourPlate = 1;
+                            }
+                            else if (glamourPlate > 20)
+                            {
+                                glamourPlate = 20;
+                            }
+
+                            configForGearset.GlamourPlate = (byte)(glamourPlate - 1);
+                            config.Save();
+                        }
+                        ImGui.SameLine();
+                    }
+                    ImGui.EndTable();
+                    ImGui.EndDisabled();
+                }
+                else
+                {
+                    ImGui.TextWrapped(TSettings.NoZoneFound);
+                }
+            }
+            else
+            {
+                ImGui.TextWrapped(TSettings.LoginToUse);
+            }
+        }
+    }
+}

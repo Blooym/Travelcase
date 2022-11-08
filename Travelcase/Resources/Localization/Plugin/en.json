@@ -1,0 +1,46 @@
+{
+  "Commands.Settings.Help": {
+    "message": "Opens the Travelcase configuration window.",
+    "description": "TCommands.get_SettingsHelp"
+  },
+  "Window.Settings": {
+    "message": "{0} - Settings",
+    "description": "TWindowNames.get_Settings"
+  },
+  "Settings.Enable": {
+    "message": "Enable {0}",
+    "description": "TSettings.get_Enable"
+  },
+  "Settings.OnlyInRoleplayMode": {
+    "message": "Only While Roleplaying",
+    "description": "TSettings.get_OnlyInRoleplayMode"
+  },
+  "Settings.Search": {
+    "message": "Search",
+    "description": "TSettings.get_Search"
+  },
+  "Settings.Zone": {
+    "message": "Zone",
+    "description": "TSettings.get_Zone"
+  },
+  "Settings.ZoneName": {
+    "message": "Enabled",
+    "description": "TSettings.get_Enabled"
+  },
+  "Settings.GearsetSlot": {
+    "message": "Gearset Slot",
+    "description": "TSettings.get_GearsetSlot"
+  },
+  "Settings.GlamourSlot": {
+    "message": "Glamour Plate",
+    "description": "TSettings.get_GlamourPlate"
+  },
+  "Settings.NoZoneFound": {
+    "message": "No zones found matching your search query, or perhaps no zones were able to load.",
+    "description": "TSettings.get_NoZoneFound"
+  },
+  "Settings.LoginToUse": {
+    "message": "Please login to configure the plugin.",
+    "description": "TSettings.get_LoginToUse"
+  }
+}
