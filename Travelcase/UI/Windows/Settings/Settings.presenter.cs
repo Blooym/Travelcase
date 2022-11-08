@@ -22,7 +22,7 @@ namespace Travelcase.UI.Windows.Settings
         /// <summary>
         ///     Pulls the current player config from the config manager
         /// </summary>
-        internal static CharacterConfiguration? CurrentConfig => PluginService.CharacterConfig.CurrentConfig ?? null;
+        internal static CharacterConfiguration? CurrentConfig => PluginService.CharacterConfig.CurrentConfig;
 
 #if DEBUG
         internal FileDialogManager DialogManager = new();

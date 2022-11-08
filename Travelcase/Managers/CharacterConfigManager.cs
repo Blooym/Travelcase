@@ -51,7 +51,7 @@ namespace Travelcase.Managers
         private static CharacterConfiguration? LoadConfig()
         {
             PluginLog.Debug("CharacterConfigManager(LoadConfig): Loading configuration");
-            return CharacterConfiguration.Load() ?? null;
+            return CharacterConfiguration.Load(PluginService.ClientState.LocalContentId);
         }
 
         /// <summary>

@@ -60,9 +60,9 @@ namespace Travelcase.Base
         }
 
         /// <summary>
-        ///     Sets 'this' to the configuration for the current character.
+        ///     Returns the configuration for the current character.
         /// </summary>
-        public static CharacterConfiguration? Load()
+        public static CharacterConfiguration? LoadCurrentCharacter()
         {
             var contentID = PluginService.ClientState.LocalContentId;
             if (contentID == 0)
@@ -83,6 +83,34 @@ namespace Travelcase.Base
                 if (configObj == null)
                 {
                     return NewCharacterConfiguration();
+                }
+
+                return configObj;
+            }
+            catch (Exception e)
+            {
+                PluginLog.Error($"CharacterConfiguration(Load): Failed to load character configuration from {configPath}: {e.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        ///     Loads the configuration for the ContentID provided.
+        /// </summary>
+        public static CharacterConfiguration? Load(ulong contentId)
+        {
+            var configPath = UserConfigPath(contentId);
+            if (!File.Exists(configPath))
+            {
+                return NewCharacterConfiguration();
+            }
+
+            try
+            {
+                var configObj = JsonConvert.DeserializeObject<CharacterConfiguration>(File.ReadAllText(configPath));
+                if (configObj == null)
+                {
+                    return null;
                 }
 
                 return configObj;
