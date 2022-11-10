@@ -53,6 +53,7 @@ namespace Travelcase.UI.Windows.Settings
                 }
                 ImGui.SameLine();
 
+                ImGui.BeginDisabled(!globalEnabled);
                 var onlyInRoleplayMode = config.OnlyInRoleplayMode;
                 if (ImGui.Checkbox(TSettings.OnlyInRoleplayMode, ref onlyInRoleplayMode))
                 {
@@ -69,6 +70,7 @@ namespace Travelcase.UI.Windows.Settings
                         default:
                     }
                 }
+                ImGui.EndDisabled();
 
 #if DEBUG
                 // Export localization button
