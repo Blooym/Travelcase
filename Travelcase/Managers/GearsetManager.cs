@@ -62,34 +62,36 @@ namespace Travelcase.Managers
                 PluginLog.Debug($"GearsetManager(OnTerritoryChange): Territory changed to {territory}, and config is enabled, attempting to apply gearset.");
                 this.storedTerritory = territory;
 
+                var gearset = config.GearsetBindings.FirstOrDefault(g => g.Key == territory).Value;
+                if (!gearset.Enabled)
+                {
+                    return;
+                }
+
+                if (!DataUtil.GetAllowedZones()?.Any(x => x.RowId == territory) ?? true)
+                {
+                    PluginLog.Warning($"GearsetManager(OnTerritoryChange): Territory {territory} is not an allowed territoryID, skipping gearset change.");
+                    return;
+                }
+
+                if (gearset.GlamourPlate is > 20 or < 0)
+                {
+                    PluginLog.Warning($"GearsetManager(OnTerritoryChange): Glamour plate {gearset.GlamourPlate} is not a valid value, skipping gearset change.");
+                    return;
+                }
+
+                if (gearset.GearsetNumber is > 100 or < 0)
+                {
+                    PluginLog.Warning($"GearsetManager(OnTerritoryChange): Gearset number {gearset.GearsetNumber} is not a valid value, skipping gearset change.");
+                    return;
+                }
+
                 new Task(() =>
                 {
                     try
                     {
                         if (config.GearsetBindings.TryGetValue(territory, out var gearset))
                         {
-                            if (!gearset.Enabled)
-                            {
-                                return;
-                            }
-
-                            if (!DataUtil.GetAllowedZones()?.Any(x => x.RowId == territory) ?? true)
-                            {
-                                PluginLog.Warning($"GearsetManager(OnTerritoryChange): Territory {territory} is not allowed, skipping gearset change.");
-                                return;
-                            }
-
-                            if (gearset.GlamourPlate is > 20 or < 0)
-                            {
-                                PluginLog.Warning($"GearsetManager(OnTerritoryChange): Glamour plate {gearset.GlamourPlate} is not a valid value, skipping gearset change.");
-                                return;
-                            }
-
-                            if (gearset.GearsetNumber is > 100 or < 0)
-                            {
-                                PluginLog.Warning($"GearsetManager(OnTerritoryChange): Gearset number {gearset.GearsetNumber} is not a valid value, skipping gearset change.");
-                                return;
-                            }
 
                             while (PluginService.Condition[ConditionFlag.BetweenAreas]
                                 || PluginService.Condition[ConditionFlag.BetweenAreas51]
@@ -114,12 +116,11 @@ namespace Travelcase.Managers
         private unsafe bool ChangeGearset(int gearsetId, byte glamourId)
         {
             var gsModuleInstance = RaptureGearsetModule.Instance();
-            PluginLog.Information($"GearsetManager(OnTerritoryChange): Attempting to change to gearset to {gearsetId}.");
-
+            PluginLog.Information($"GearsetManager(OnTerritoryChange): Moved zones, changing gearset to {gearsetId}{(glamourId == 0 ? string.Empty : $" and glamour plate to {glamourId}")}.");
 
             if (gsModuleInstance->IsValidGearset(gearsetId) == 0)
             {
-                PluginLog.Warning($"GearsetManager(OnTerritoryChange): Unknown or invalid gearset ID {gearsetId}, skipping gearset change.");
+                PluginLog.Warning($"GearsetManager(OnTerritoryChange): Unknown or invalid gearset value: {gearsetId}, skipping gearset change.");
                 return false;
             }
 
