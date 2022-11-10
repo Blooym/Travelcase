@@ -50,12 +50,12 @@ namespace Travelcase.Managers
                 case SettingsCommand when args == "toggle":
                     config = PluginService.CharacterConfig?.CurrentConfig;
                     if (config != null)
-                    { config.IsEnabled = !config.IsEnabled; config.Save(); }
+                    { config.IsEnabled = !config.IsEnabled; config.SaveForCharacter(); }
                     break;
                 case SettingsCommand when args == "rp":
                     config = PluginService.CharacterConfig?.CurrentConfig;
                     if (config != null)
-                    { config.OnlyInRoleplayMode = !config.OnlyInRoleplayMode; config.Save(); }
+                    { config.OnlyInRoleplayMode = !config.OnlyInRoleplayMode; config.SaveForCharacter(); }
                     break;
                 case SettingsCommand when args == string.Empty:
                     if (windowSystem.GetWindow(TWindowNames.Settings) is SettingsWindow settingsWindow)

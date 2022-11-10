@@ -42,11 +42,11 @@ namespace Travelcase.UI.Windows.Settings
                     {
                         case true:
                             config.IsEnabled = true;
-                            config.Save();
+                            config.SaveForCharacter();
                             break;
                         case false:
                             config.IsEnabled = false;
-                            config.Save();
+                            config.SaveForCharacter();
                             break;
                         default:
                     }
@@ -60,11 +60,11 @@ namespace Travelcase.UI.Windows.Settings
                     {
                         case true:
                             config.OnlyInRoleplayMode = true;
-                            config.Save();
+                            config.SaveForCharacter();
                             break;
                         case false:
                             config.OnlyInRoleplayMode = false;
-                            config.Save();
+                            config.SaveForCharacter();
                             break;
                         default:
                     }
@@ -82,7 +82,7 @@ namespace Travelcase.UI.Windows.Settings
 
                 // Donate button
                 ImGui.SameLine();
-                if (ImGui.Button("Donate"))
+                if (ImGui.Button(TSettings.Donate))
                 {
                     Util.OpenLink(PluginConstants.DonateButtonUrl);
                 }
@@ -126,7 +126,7 @@ namespace Travelcase.UI.Windows.Settings
                         if (ImGui.Checkbox($"##{t.RowId}", ref isEnabled))
                         {
                             configForGearset.Enabled = isEnabled;
-                            config.Save();
+                            config.SaveForCharacter();
                         }
                         ImGui.TableSetColumnIndex(2);
 
@@ -143,7 +143,7 @@ namespace Travelcase.UI.Windows.Settings
                             }
 
                             configForGearset.GearsetNumber = slot - 1;
-                            config.Save();
+                            config.SaveForCharacter();
                         }
                         ImGui.TableSetColumnIndex(3);
 
@@ -160,7 +160,7 @@ namespace Travelcase.UI.Windows.Settings
                             }
 
                             configForGearset.GlamourPlate = Convert.ToByte(glamourPlate);
-                            config.Save();
+                            config.SaveForCharacter();
                         }
                         ImGui.SameLine();
                     }

@@ -36,17 +36,36 @@ namespace Travelcase.Base
         /// <summary>
         ///     Saves the current configuration (and any modifications) as a file for this character.
         /// </summary>
-        public void Save()
+        public void SaveForCharacter()
         {
             try
             {
                 var contentId = PluginService.ClientState.LocalContentId;
                 if (contentId == 0)
                 {
-                    PluginLog.Warning("CharacterConfiguration(Save): No ContentID found, not able to save configuration.");
+                    PluginLog.Warning("CharacterConfiguration(Save): No ContentID found, not able to save user configuration.");
                     return;
                 }
 
+                this.CharacterName = PluginService.ClientState.LocalPlayer?.Name.TextValue;
+
+                Directory.CreateDirectory(GetConfigDir());
+                var configObj = JsonConvert.SerializeObject(this, Formatting.Indented);
+                File.WriteAllText(UserConfigPath(contentId), configObj);
+            }
+            catch (Exception e)
+            {
+                PluginLog.Error($"CharacterConfiguration(Save): Failed to save character configuration to file: {e}");
+            }
+        }
+
+        /// <summary>
+        ///     Saves the current configuration (and any modifications) as a file for the ContentID provided.
+        /// </summary>
+        public void Save(ulong contentId)
+        {
+            try
+            {
                 this.CharacterName = PluginService.ClientState.LocalPlayer?.Name.TextValue;
 
                 Directory.CreateDirectory(GetConfigDir());
@@ -129,7 +148,7 @@ namespace Travelcase.Base
         {
             var newCharacter = new CharacterConfiguration() { CharacterName = PluginService.ClientState.LocalPlayer?.Name.TextValue };
 
-            newCharacter.Save();
+            newCharacter.SaveForCharacter();
             return newCharacter;
         }
     }

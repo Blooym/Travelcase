@@ -28,7 +28,6 @@ namespace Travelcase.IPC
             {
                 try
                 {
-                    PluginLog.Debug($"IPCLoader(Constructor): Found {type.FullName} - Going to try to initialize it");
                     var ipc = Activator.CreateInstance(type);
 
                     if (ipc is IIPCProvider provider)
