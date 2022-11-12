@@ -36,7 +36,7 @@ namespace Travelcase.Base
         /// <summary>
         ///     Saves the current configuration (and any modifications) as a file for this character.
         /// </summary>
-        public void SaveForCharacter()
+        public void Save()
         {
             try
             {
@@ -81,7 +81,7 @@ namespace Travelcase.Base
         /// <summary>
         ///     Returns the configuration for the current character.
         /// </summary>
-        public static CharacterConfiguration? LoadCurrentCharacter()
+        public static CharacterConfiguration? Load()
         {
             var contentID = PluginService.ClientState.LocalContentId;
             if (contentID == 0)
@@ -93,7 +93,7 @@ namespace Travelcase.Base
             var configPath = UserConfigPath(contentID);
             if (!File.Exists(configPath))
             {
-                return NewCharacterConfiguration();
+                return new();
             }
 
             try
@@ -101,7 +101,7 @@ namespace Travelcase.Base
                 var configObj = JsonConvert.DeserializeObject<CharacterConfiguration>(File.ReadAllText(configPath));
                 if (configObj == null)
                 {
-                    return NewCharacterConfiguration();
+                    return new();
                 }
 
                 return configObj;
@@ -121,7 +121,7 @@ namespace Travelcase.Base
             var configPath = UserConfigPath(contentId);
             if (!File.Exists(configPath))
             {
-                return NewCharacterConfiguration();
+                return new();
             }
 
             try
@@ -139,17 +139,6 @@ namespace Travelcase.Base
                 PluginLog.Error($"CharacterConfiguration(Load): Failed to load character configuration from {configPath}: {e.Message}");
                 return null;
             }
-        }
-
-        /// <summary>
-        ///     Create a new configuration for the current character.
-        /// </summary>
-        private static CharacterConfiguration NewCharacterConfiguration()
-        {
-            var newCharacter = new CharacterConfiguration() { CharacterName = PluginService.ClientState.LocalPlayer?.Name.TextValue };
-
-            newCharacter.SaveForCharacter();
-            return newCharacter;
         }
     }
 }

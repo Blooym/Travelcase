@@ -1,4 +1,5 @@
 using Dalamud.Data;
+using Dalamud.Game;
 using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.Gui.Toast;
@@ -22,6 +23,7 @@ namespace Travelcase.Base
         [PluginService] internal static DataManager DataManager { get; private set; }
         [PluginService] internal static Condition Condition { get; private set; }
         [PluginService] internal static ToastGui ToastGui { get; private set; }
+        [PluginService] internal static Framework Framework { get; private set; }
 
         internal static CommandManager CommandManager { get; private set; }
         internal static WindowManager WindowManager { get; private set; }

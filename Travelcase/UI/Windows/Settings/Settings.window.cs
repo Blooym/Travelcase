@@ -42,11 +42,11 @@ namespace Travelcase.UI.Windows.Settings
                     {
                         case true:
                             config.IsEnabled = true;
-                            config.SaveForCharacter();
+                            config.Save();
                             break;
                         case false:
                             config.IsEnabled = false;
-                            config.SaveForCharacter();
+                            config.Save();
                             break;
                         default:
                     }
@@ -61,11 +61,11 @@ namespace Travelcase.UI.Windows.Settings
                     {
                         case true:
                             config.OnlyInRoleplayMode = true;
-                            config.SaveForCharacter();
+                            config.Save();
                             break;
                         case false:
                             config.OnlyInRoleplayMode = false;
-                            config.SaveForCharacter();
+                            config.Save();
                             break;
                         default:
                     }
@@ -128,7 +128,7 @@ namespace Travelcase.UI.Windows.Settings
                         if (ImGui.Checkbox($"##{t.RowId}", ref isEnabled))
                         {
                             configForGearset.Enabled = isEnabled;
-                            config.SaveForCharacter();
+                            config.Save();
                         }
                         ImGui.TableSetColumnIndex(2);
 
@@ -145,7 +145,7 @@ namespace Travelcase.UI.Windows.Settings
                             }
 
                             configForGearset.GearsetNumber = slot - 1;
-                            config.SaveForCharacter();
+                            config.Save();
                         }
                         ImGui.TableSetColumnIndex(3);
 
@@ -162,7 +162,7 @@ namespace Travelcase.UI.Windows.Settings
                             }
 
                             configForGearset.GlamourPlate = Convert.ToByte(glamourPlate);
-                            config.SaveForCharacter();
+                            config.Save();
                         }
                         ImGui.SameLine();
                     }

@@ -121,7 +121,7 @@ namespace Travelcase.IPC.Providers
                 if (config != null)
                 {
                     config.IsEnabled = !config.IsEnabled;
-                    config.SaveForCharacter();
+                    config.Save();
                     PluginService.ToastGui.ShowQuest(config.IsEnabled ? WotsitTranslations.WotsitIPCEnabled : WotsitTranslations.WotsitIPCDisabled);
                 }
             }
@@ -130,7 +130,7 @@ namespace Travelcase.IPC.Providers
                 if (config != null)
                 {
                     config.OnlyInRoleplayMode = !config.OnlyInRoleplayMode;
-                    config.SaveForCharacter();
+                    config.Save();
                     PluginService.ToastGui.ShowQuest(config.OnlyInRoleplayMode ? WotsitTranslations.WotsitIPCRPEnabled : WotsitTranslations.WotsitIPCRPDisabled);
                 }
             }

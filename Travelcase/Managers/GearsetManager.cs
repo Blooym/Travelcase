@@ -12,7 +12,7 @@ namespace Travelcase.Managers
     /// <summary>
     ///     Manages automatic gearset switching based on conditions with protections in place.
     /// </summary>
-    public class GearsetManager : IDisposable
+    public sealed class GearsetManager : IDisposable
     {
         /// <summary>
         ///     Initializes the GearsetManager and its resources.
