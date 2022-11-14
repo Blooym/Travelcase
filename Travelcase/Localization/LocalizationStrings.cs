@@ -8,7 +8,7 @@ namespace Travelcase.Localization
     /// </summary>
     internal sealed class TCommands
     {
-        internal static string SettingsHelp => Loc.Localize("Commands.Settings.Help", "Opens the Travelcase configuration window when no arguments are specified, '/travelcase toggle' to toggle the plugin on/off, and '/travelcase rp' to toggle the plugin on/off in roleplay mode.");
+        internal static string SettingsHelp => Loc.Localize("Commands.Settings.Help", "Opens the Travelcase configuration window when no arguments are specified. '/travelcase toggle' to toggle the plugin, '/travelcase rp' to toggle roleplay mode.");
     }
 
     /// <summary>

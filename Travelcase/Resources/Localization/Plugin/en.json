@@ -1,6 +1,6 @@
 {
   "Commands.Settings.Help": {
-    "message": "Opens the Travelcase configuration window when no arguments are specified, '/travelcase toggle' to toggle the plugin on/off, and '/travelcase rp' to toggle the plugin on/off in roleplay mode.",
+    "message": "Opens the Travelcase configuration window when no arguments are specified. '/travelcase toggle' to toggle the plugin, '/travelcase rp' to toggle roleplay mode.",
     "description": "TCommands.get_SettingsHelp"
   },
   "Window.Settings": {
@@ -48,11 +48,11 @@
     "description": "TSettings.get_Donate"
   },
   "IPC.Wotsit.TogglePlugin": {
-    "message": "Enable/Disable {0}",
+    "message": "Toggle {0}",
     "description": "WotsitTranslations.get_WotsitIPCTogglePlugin"
   },
   "IPC.Wotsit.ToggleRP": {
-    "message": "Enable/Disable Roleplay-only Mode",
+    "message": "Toggle Roleplay-only mode",
     "description": "WotsitTranslations.get_WotsitIPCToggleRP"
   },
   "IPC.Wotsit.Enabled": {

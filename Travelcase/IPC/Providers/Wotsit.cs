@@ -1,4 +1,5 @@
 using CheapLoc;
+using Dalamud.Logging;
 using Dalamud.Plugin.Ipc;
 using Travelcase.Base;
 using Travelcase.IPC.Interfaces;
@@ -53,6 +54,11 @@ namespace Travelcase.IPC.Providers
         private ICallGateSubscriber<bool>? wotsitAvailable;
 
         /// <summary>
+        ///     Invoke CallGateSubscriber.
+        /// </summary>
+        private ICallGateSubscriber<string, bool>? wotsitInvoke;
+
+        /// <summary>
         ///     Stored GUID for wotsitToggleEnabledIpc.
         /// </summary>
         private string? wotsitToggleEnabledIpc;
@@ -77,6 +83,7 @@ namespace Travelcase.IPC.Providers
             try
             {
                 this.wotsitAvailable?.Unsubscribe(this.Initialize);
+                this.wotsitInvoke?.Unsubscribe(this.HandleInvoke);
                 this.wotsitUnregister?.InvokeFunc(PluginConstants.PluginName);
             }
             catch { /* Ignore */ }
@@ -89,9 +96,9 @@ namespace Travelcase.IPC.Providers
         {
             this.wotsitRegister = PluginService.PluginInterface.GetIpcSubscriber<string, string, uint, string>(LabelProviderRegister);
             this.wotsitUnregister = PluginService.PluginInterface.GetIpcSubscriber<string, bool>(LabelProviderUnregisterAll);
+            this.wotsitInvoke = PluginService.PluginInterface.GetIpcSubscriber<string, bool>(LabelProviderInvoke);
 
-            var subscribe = PluginService.PluginInterface.GetIpcSubscriber<string, bool>(LabelProviderInvoke);
-            subscribe.Subscribe(this.HandleInvoke);
+            this.wotsitInvoke.Subscribe(this.HandleInvoke);
 
             this.RegisterAll();
         }
@@ -116,6 +123,7 @@ namespace Travelcase.IPC.Providers
         private void HandleInvoke(string guid)
         {
             var config = PluginService.CharacterConfig.CurrentConfig;
+            PluginLog.Verbose($"WotsitIPC(HandleInvoke): Invoker GUID is {guid}");
             if (guid == this.wotsitToggleEnabledIpc)
             {
                 if (config != null)
@@ -141,8 +149,8 @@ namespace Travelcase.IPC.Providers
         /// </summary>
         private static class WotsitTranslations
         {
-            public static string WotsitIPCTogglePlugin => string.Format(Loc.Localize("IPC.Wotsit.TogglePlugin", "Enable/Disable {0}"), PluginConstants.PluginName);
-            public static string WotsitIPCToggleRP => string.Format(Loc.Localize("IPC.Wotsit.ToggleRP", "Enable/Disable Roleplay-only Mode"), PluginConstants.PluginName);
+            public static string WotsitIPCTogglePlugin => string.Format(Loc.Localize("IPC.Wotsit.TogglePlugin", "Toggle {0}"), PluginConstants.PluginName);
+            public static string WotsitIPCToggleRP => Loc.Localize("IPC.Wotsit.ToggleRP", "Toggle Roleplay-only mode");
             public static string WotsitIPCEnabled => string.Format(Loc.Localize("IPC.Wotsit.Enabled", "{0} is now enabled."), PluginConstants.PluginName);
             public static string WotsitIPCDisabled => string.Format(Loc.Localize("IPC.Wotsit.Disabled", "{0} is now disabled."), PluginConstants.PluginName);
             public static string WotsitIPCRPEnabled => Loc.Localize("IPC.Wotsit.RPEnabled", "Roleplay-only mode is now enabled.");
