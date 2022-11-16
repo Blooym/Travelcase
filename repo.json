@@ -3,7 +3,7 @@
     "Author": "BitsOfAByte",
     "Name": "Travelcase",
     "InternalName": "Travelcase",
-    "AssemblyVersion": "0.1.1.7",
+    "AssemblyVersion": "0.1.1.8",
     "ApplicableVersion": "any",
     "Punchline": "Pack your gearsets & glamours up and change into them when entering specified zones.",
     "Description": "Allows for automatic changing of Gearsets/Glamours upon entering new zones, with a 'Roleplay Only' mode for those who want to only use it for RP purposes.",
