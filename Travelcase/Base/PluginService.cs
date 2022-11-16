@@ -6,7 +6,6 @@ using Dalamud.Game.Gui.Toast;
 using Dalamud.IoC;
 using Dalamud.Logging;
 using Dalamud.Plugin;
-using Travelcase.IPC;
 using Travelcase.Managers;
 
 namespace Travelcase.Base
@@ -30,7 +29,6 @@ namespace Travelcase.Base
         internal static CharacterConfigManager CharacterConfig { get; private set; }
         internal static ResourceManager Resources { get; private set; }
         internal static GearsetManager GearsetManager { get; private set; }
-        internal static IPCLoader IPC { get; private set; }
 #pragma warning restore CS8618, RCS1170
 
         /// <summary>
@@ -43,7 +41,6 @@ namespace Travelcase.Base
             CommandManager = new CommandManager();
             CharacterConfig = new CharacterConfigManager();
             GearsetManager = new GearsetManager();
-            IPC = new IPCLoader();
 
             PluginLog.Debug("PluginService(Initialize): Successfully initialized plugin services.");
         }
@@ -57,7 +54,6 @@ namespace Travelcase.Base
             CommandManager.Dispose();
             CharacterConfig.Dispose();
             GearsetManager.Dispose();
-            IPC.Dispose();
 
             PluginLog.Debug("PluginService(Initialize): Successfully disposed of plugin services.");
         }
