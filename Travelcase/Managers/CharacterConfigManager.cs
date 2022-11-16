@@ -31,6 +31,7 @@ namespace Travelcase.Managers
         /// <summary>
         ///     Listens to the framework for logins and logout events for loading and unloading the configuration.
         /// </summary>
+        /// <param name="e">The framework update event arguments.</param>
         private void OnFrameworkUpdate(object? e)
         {
             var contentID = PluginService.ClientState?.LocalContentId;

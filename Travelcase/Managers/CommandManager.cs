@@ -41,10 +41,16 @@ namespace Travelcase.Managers
         /// <summary>
         ///     Event handler for when a command is issued by the user.
         /// </summary>
+        /// <param name="command">The command that was issued.</param>
+        /// <param name="args">The arguments that were passed with the command.</param>
+        ///
         private void OnCommand(string command, string args)
         {
             var windowSystem = PluginService.WindowManager.WindowSystem;
-            var config = PluginService.CharacterConfig.CurrentConfig;
+
+            _ = PluginService.CharacterConfig.CurrentConfig;
+
+            CharacterConfiguration? config;
             switch (command)
             {
                 case SettingsCommand when args == "toggle":
@@ -57,13 +63,11 @@ namespace Travelcase.Managers
                     if (config != null)
                     { config.OnlyInRoleplayMode = !config.OnlyInRoleplayMode; config.Save(); }
                     break;
-                case SettingsCommand when args == string.Empty:
+                case SettingsCommand when args?.Length == 0:
                     if (windowSystem.GetWindow(TWindowNames.Settings) is SettingsWindow settingsWindow)
                     {
                         settingsWindow.IsOpen = !settingsWindow.IsOpen;
                     }
-                    break;
-                default:
                     break;
             }
         }

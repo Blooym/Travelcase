@@ -14,9 +14,9 @@ namespace Travelcase.Base
     /// <summary>
     ///     Provides access to necessary instances and services.
     /// </summary>
-#pragma warning disable CS8618 // Injection is handled by the Dalamud Plugin Framework here.
     internal sealed class PluginService
     {
+#pragma warning disable CS8618, RCS1170 // Injection is handled by the Dalamud Plugin Framework here.
         [PluginService] internal static DalamudPluginInterface PluginInterface { get; private set; }
         [PluginService] internal static Dalamud.Game.Command.CommandManager Commands { get; private set; }
         [PluginService] internal static ClientState ClientState { get; private set; }
@@ -31,6 +31,7 @@ namespace Travelcase.Base
         internal static ResourceManager Resources { get; private set; }
         internal static GearsetManager GearsetManager { get; private set; }
         internal static IPCLoader IPC { get; private set; }
+#pragma warning restore CS8618, RCS1170
 
         /// <summary>
         ///     Initializes the service class.

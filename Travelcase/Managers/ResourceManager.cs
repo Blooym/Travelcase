@@ -25,7 +25,7 @@ namespace Travelcase.Managers
         }
 
         /// <summary>
-        //      Disposes of the ResourceManager and associated resources.
+        ///      Disposes of the ResourceManager and associated resources.
         /// </summary>
         public void Dispose()
         {
@@ -37,6 +37,7 @@ namespace Travelcase.Managers
         /// <summary>
         ///     Sets up the plugin's resources.
         /// </summary>
+        /// <param name="language">The new language 2-letter code.</param>
         private void Setup(string language)
         {
             PluginLog.Information($"ResourceManager(Setup): Setting up resources for language {language}...");

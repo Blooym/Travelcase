@@ -5,6 +5,6 @@ namespace Travelcase.IPC
     /// </summary>
     public enum IPCProviders
     {
-        Wotsit,
+        Wotsit = 0,
     }
 }

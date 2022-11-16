@@ -30,6 +30,8 @@ namespace Travelcase.UI.Windows.Settings
         /// <summary>
         ///     Handles the directory select event and saves the location to that directory.
         /// </summary>
+        /// <param name="success"></param>
+        /// <param name="path">The path to the directory.</param>
         public static void OnDirectoryPicked(bool success, string path)
         {
             if (!success)

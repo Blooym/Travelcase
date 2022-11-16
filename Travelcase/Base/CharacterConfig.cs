@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 
 namespace Travelcase.Base
 {
-
     /// <summary>
     ///     Provides access to and determines the per-character Plugin configuration.
     /// </summary>
@@ -62,6 +61,7 @@ namespace Travelcase.Base
         /// <summary>
         ///     Saves the current configuration (and any modifications) as a file for the ContentID provided.
         /// </summary>
+        /// <param name="contentId">The ContentID to save the configuration for.</param>
         public void Save(ulong contentId)
         {
             try
@@ -99,12 +99,7 @@ namespace Travelcase.Base
             try
             {
                 var configObj = JsonConvert.DeserializeObject<CharacterConfiguration>(File.ReadAllText(configPath));
-                if (configObj == null)
-                {
-                    return new();
-                }
-
-                return configObj;
+                return configObj ?? (CharacterConfiguration?)(new());
             }
             catch (Exception e)
             {
@@ -116,6 +111,7 @@ namespace Travelcase.Base
         /// <summary>
         ///     Loads the configuration for the ContentID provided.
         /// </summary>
+        /// <param name="contentId"></param>
         public static CharacterConfiguration? Load(ulong contentId)
         {
             var configPath = UserConfigPath(contentId);
@@ -126,13 +122,7 @@ namespace Travelcase.Base
 
             try
             {
-                var configObj = JsonConvert.DeserializeObject<CharacterConfiguration>(File.ReadAllText(configPath));
-                if (configObj == null)
-                {
-                    return null;
-                }
-
-                return configObj;
+                return JsonConvert.DeserializeObject<CharacterConfiguration>(File.ReadAllText(configPath));
             }
             catch (Exception e)
             {

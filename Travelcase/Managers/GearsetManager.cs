@@ -27,7 +27,7 @@ namespace Travelcase.Managers
         }
 
         /// <summary>
-        //      Disposes of the GearsetManager and associated resources.
+        ///      Disposes of the GearsetManager and associated resources.
         /// </summary>
         public void Dispose()
         {
@@ -47,10 +47,13 @@ namespace Travelcase.Managers
         /// <summary>
         ///     Handles territory changes and gearset switching.
         /// </summary>
+        /// <param name="_"></param>
+        /// <param name="territory">The new territory ID.</param>
         public void OnTerritoryChanged(object? _, ushort territory)
         {
             var config = PluginService.CharacterConfig.CurrentConfig;
-            if (this.storedTerritory != territory && config != null && config.IsEnabled)
+
+            if (this.storedTerritory != territory && config?.IsEnabled == true)
             {
                 if (config.OnlyInRoleplayMode && PluginService.ClientState.LocalPlayer?.OnlineStatus.Id != 22)
                 {
@@ -63,7 +66,7 @@ namespace Travelcase.Managers
                 this.storedTerritory = territory;
 
                 var gearset = config.GearsetBindings.FirstOrDefault(g => g.Key == territory).Value;
-                if (!gearset.Enabled)
+                if (gearset?.Enabled != true)
                 {
                     return;
                 }
@@ -92,13 +95,12 @@ namespace Travelcase.Managers
                     {
                         if (config.GearsetBindings.TryGetValue(territory, out var gearset))
                         {
-
                             while (PluginService.Condition[ConditionFlag.BetweenAreas]
                                 || PluginService.Condition[ConditionFlag.BetweenAreas51]
                                 || PluginService.Condition[ConditionFlag.OccupiedInCutSceneEvent]
                                 || PluginService.Condition[ConditionFlag.Unconscious])
                             {
-                                PluginLog.Debug($"GearsetManager(OnTerritoryChange): Unable to change gearset yet, waiting for conditions to clear.");
+                                PluginLog.Debug("GearsetManager(OnTerritoryChange): Unable to change gearset yet, waiting for conditions to clear.");
                                 Task.Delay(1000).Wait();
                             }
 
@@ -113,6 +115,8 @@ namespace Travelcase.Managers
         /// <summary>
         ///     Changes the player's gearset.
         /// </summary>
+        /// <param name="gearsetId"></param>
+        /// <param name="glamourId"></param>
         private unsafe bool ChangeGearset(int gearsetId, byte glamourId)
         {
             var gsModuleInstance = RaptureGearsetModule.Instance();

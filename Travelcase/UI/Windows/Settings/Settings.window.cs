@@ -37,7 +37,6 @@ namespace Travelcase.UI.Windows.Settings
                 var globalEnabled = config.IsEnabled;
                 if (ImGui.Checkbox(TSettings.Enable, ref globalEnabled))
                 {
-
                     switch (globalEnabled)
                     {
                         case true:
@@ -99,8 +98,8 @@ namespace Travelcase.UI.Windows.Settings
                 }
 
                 // Table of all zones.
-                var zonesToDraw = SettingsPresenter.AllowedZones?.Where(z => z.PlaceName?.Value?.Name.ToString().ToLower().Contains(this.searchQuery.ToLower()) ?? false).ToList();
-                if (zonesToDraw != null && zonesToDraw.Count > 0)
+                var zonesToDraw = SettingsPresenter.AllowedZones?.Where(z => z.PlaceName?.Value?.Name.ToString().Contains(this.searchQuery, StringComparison.OrdinalIgnoreCase) ?? false).ToList();
+                if (zonesToDraw?.Count > 0)
                 {
                     ImGui.BeginTable("##SettingsTable", 4, ImGuiTableFlags.ScrollY);
                     ImGui.TableSetupScrollFreeze(0, 1);

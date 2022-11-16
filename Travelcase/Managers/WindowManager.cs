@@ -34,7 +34,6 @@ namespace Travelcase.Managers
         {
             PluginLog.Debug("WindowManager(Constructor): Initializing...");
 
-
             foreach (var window in this.windows)
             {
                 PluginLog.Debug($"WindowManager(Constructor): Registering window: {window.GetType().Name}");
@@ -67,6 +66,8 @@ namespace Travelcase.Managers
         /// <summary>
         ///    Handles the OnLogout event.
         /// </summary>
+        /// <param name="e"></param>
+        /// <param name="args"></param>
         public void OnLogout(object? e, EventArgs args)
         {
             foreach (var window in this.windows)

@@ -120,6 +120,7 @@ namespace Travelcase.IPC.Providers
         /// <summary>
         ///     Handles IPC invocations for Wotsit.
         /// </summary>
+        /// <param name="guid">The GUID assigned to the method.</param>
         private void HandleInvoke(string guid)
         {
             var config = PluginService.CharacterConfig.CurrentConfig;
