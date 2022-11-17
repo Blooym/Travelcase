@@ -25,7 +25,6 @@ Travelcase is a plugin that lets you set per-character per-zone gearsets and gla
 - "Roleplay Only" mode to only change gear and glamour when you have the RP status enabled
 - Full localization support
 - Supports a large number of zones, and will automatically add new zones when they are added to the game
-- Integrates with other plugins like Wotsit automatically
 
 ## Installation
 > **Warning**  
