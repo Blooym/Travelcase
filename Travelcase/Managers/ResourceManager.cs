@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Reflection;
 using CheapLoc;
 using Dalamud.Logging;
 using Travelcase.Base;
@@ -40,13 +41,24 @@ namespace Travelcase.Managers
         /// <param name="language">The new language 2-letter code.</param>
         private void Setup(string language)
         {
-            PluginLog.Information($"ResourceManager(Setup): Setting up resources for language {language}...");
-
             try
-            { Loc.Setup(File.ReadAllText($"{PluginConstants.PluginlocalizationDir}{language}.json")); }
-            catch { Loc.SetupWithFallbacks(); }
+            {
+                using var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream($"Travelcase.Resources.Localization.Plugin.{language}.json");
 
-            PluginLog.Information("ResourceManager(Setup): Resources setup.");
+                if (resource == null)
+                {
+                    throw new FileNotFoundException($"ResourceManager(Setup): Could not find resource file for language {language}.");
+                }
+
+                using var reader = new StreamReader(resource);
+                Loc.Setup(reader.ReadToEnd());
+                PluginLog.Information($"ResourceManager(Setup): Resource file for language {language} loaded successfully.");
+            }
+            catch
+            {
+                PluginLog.Information("ResourceManager(Setup): Something went wrong while setting up localization (possibily missing a resource file or resource file is corrupt), falling back to English.");
+                Loc.SetupWithFallbacks();
+            }
         }
     }
 }

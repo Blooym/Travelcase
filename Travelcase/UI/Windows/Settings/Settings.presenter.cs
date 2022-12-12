@@ -1,23 +1,15 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using CheapLoc;
 using Dalamud.Interface.ImGuiFileDialog;
 using Dalamud.Interface.Internal.Notifications;
-using Lumina.Excel.GeneratedSheets;
 using Travelcase.Base;
-using Travelcase.Utils;
 
 namespace Travelcase.UI.Windows.Settings
 {
     public sealed class SettingsPresenter : IDisposable
     {
         public void Dispose() { }
-
-        /// <summary>
-        ///     Pulls the allowed zones from DataUtil
-        /// </summary>
-        public static IEnumerable<TerritoryType>? AllowedZones => DataUtil.GetAllowedZones();
 
         /// <summary>
         ///     Pulls the current player config from the config manager

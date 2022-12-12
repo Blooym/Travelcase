@@ -48,18 +48,14 @@ namespace Travelcase.Managers
         {
             var windowSystem = PluginService.WindowManager.WindowSystem;
 
-            _ = PluginService.CharacterConfig.CurrentConfig;
-
-            CharacterConfiguration? config;
+            var config = PluginService.CharacterConfig?.CurrentConfig;
             switch (command)
             {
                 case SettingsCommand when args == "toggle":
-                    config = PluginService.CharacterConfig?.CurrentConfig;
                     if (config != null)
                     { config.IsEnabled = !config.IsEnabled; config.Save(); }
                     break;
                 case SettingsCommand when args == "rp":
-                    config = PluginService.CharacterConfig?.CurrentConfig;
                     if (config != null)
                     { config.OnlyInRoleplayMode = !config.OnlyInRoleplayMode; config.Save(); }
                     break;

@@ -71,7 +71,7 @@ namespace Travelcase.Managers
                     return;
                 }
 
-                if (!DataUtil.GetAllowedZones()?.Any(x => x.RowId == territory) ?? true)
+                if (!DataUtil.AllowedZones?.Any(x => x.RowId == territory) ?? true)
                 {
                     PluginLog.Warning($"GearsetManager(OnTerritoryChange): Territory {territory} is not an allowed territoryID, skipping gearset change.");
                     return;
@@ -97,6 +97,7 @@ namespace Travelcase.Managers
                         {
                             while (PluginService.Condition[ConditionFlag.BetweenAreas]
                                 || PluginService.Condition[ConditionFlag.BetweenAreas51]
+                                || PluginService.Condition[ConditionFlag.Occupied]
                                 || PluginService.Condition[ConditionFlag.OccupiedInCutSceneEvent]
                                 || PluginService.Condition[ConditionFlag.Unconscious])
                             {

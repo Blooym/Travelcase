@@ -6,6 +6,7 @@ using Dalamud.Utility;
 using ImGuiNET;
 using Travelcase.Base;
 using Travelcase.Localization;
+using Travelcase.Utils;
 
 namespace Travelcase.UI.Windows.Settings
 {
@@ -98,7 +99,7 @@ namespace Travelcase.UI.Windows.Settings
                 }
 
                 // Table of all zones.
-                var zonesToDraw = SettingsPresenter.AllowedZones?.Where(z => z.PlaceName?.Value?.Name.ToString().Contains(this.searchQuery, StringComparison.OrdinalIgnoreCase) ?? false).ToList();
+                var zonesToDraw = DataUtil.AllowedZones?.Where(z => z.PlaceName?.Value?.Name.ToString().Contains(this.searchQuery, StringComparison.OrdinalIgnoreCase) ?? false).ToList();
                 if (zonesToDraw?.Count > 0)
                 {
                     ImGui.BeginTable("##SettingsTable", 4, ImGuiTableFlags.ScrollY);
@@ -111,7 +112,7 @@ namespace Travelcase.UI.Windows.Settings
 
                     foreach (var t in zonesToDraw)
                     {
-                        var configForGearset = config.GearsetBindings.ContainsKey(t.RowId) ? config.GearsetBindings[t.RowId] : config.GearsetBindings[t.RowId] = new() { Name = t.PlaceName.Value?.Name ?? string.Empty };
+                        var configForGearset = config.GearsetBindings.ContainsKey(t.RowId) ? config.GearsetBindings[t.RowId] : config.GearsetBindings[t.RowId] = new() { Name = t.PlaceName.Value?.Name ?? "???" };
                         var isEnabled = configForGearset.Enabled;
                         var slot = configForGearset.GearsetNumber + 1;
                         var glamourPlate = (int)configForGearset.GlamourPlate;
