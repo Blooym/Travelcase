@@ -21,6 +21,9 @@ namespace Travelcase
             PluginService.Initialize();
         }
 
+        /// <summary>
+        ///     Disposes of the plugin's resources.
+        /// </summary>
         public void Dispose() => PluginService.Dispose();
     }
 }
