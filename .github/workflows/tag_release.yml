@@ -45,7 +45,6 @@ jobs:
         run: |
           dotnet build --configuration Release --nologo -p:AssemblyVersion=${{ steps.tag_name.outputs.TAG }} -p:AssemblyInformationalVersion=${{ steps.tag_name }}
           sha512sum Travelcase/bin/x64/Release/Travelcase/latest.zip  >> checksums.txt
-          sha512sum Travelcase/bin/x64/Release/Travelcase/Travelcase.json >> checksums.txt
           cat checksums.txt
 
       - name: Release
@@ -55,5 +54,4 @@ jobs:
           prerelease: false
           files: |
             Travelcase/bin/x64/Release/Travelcase/latest.zip
-            Travelcase/bin/x64/Release/Travelcase/Travelcase.json
             checksums.txt
