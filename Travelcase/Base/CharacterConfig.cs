@@ -15,21 +15,56 @@ namespace Travelcase.Base
         ///     The current configuration version, incremented on breaking changes.
         /// </summary>
         public int Version { get; set; }
-        public string? CharacterName { get; set; }
+
+        /// <summary>
+        ///     If true, the plugin will be active for this character.
+        /// </summary>
         public bool IsEnabled { get; set; } = true;
+
+        /// <summary>
+        ///     If true, the plugin will only be active when the roleplaying online status is active.
+        /// </summary>
         public bool OnlyInRoleplayMode { get; set; }
+
+        /// <summary>
+        ///     Information about the character.
+        /// </summary>
+        public CharacterInformation CharacterInfo { get; set; } = new();
+
+        /// <summary>
+        ///     A dictionary of gearset bindings, where the key is the territoryID and the value is the gearset configuration.
+        /// </summary>
         public Dictionary<uint, Gearset> GearsetBindings { get; set; } = new();
 
+        /// <summary>
+        ///     Information about a gearset configuration, such as the number and linked glamour plate.
+        /// </summary>
         public class Gearset
         {
             public string Name { get; set; } = string.Empty;
             public int GearsetNumber { get; set; }
             public byte GlamourPlate { get; set; }
             public bool Enabled { get; set; }
-            public DateTime GeneratedOn { get; set; } = DateTime.Now;
         }
 
+        /// <summary>
+        ///     Information about the character, only used for helping identify configuration files manually.
+        ///     The information in this class should not be used as it is not guaranteed to be accurate.
+        /// </summary>
+        public class CharacterInformation
+        {
+            public string? Name { get; set; }
+            public string? World { get; set; }
+        }
+
+        /// <summary>
+        ///     Returns the path to the configuration directory, alias for <see cref="PluginInterface.GetPluginConfigDirectory" />.
+        /// </summary>
         private static string GetConfigDir() => PluginService.PluginInterface.GetPluginConfigDirectory();
+
+        /// <summary>
+        ///     Returns the path to the configuration file for the ContentID provided.
+        /// </summary>
         private static string UserConfigPath(ulong contentId) => Path.Combine(GetConfigDir(), $"{contentId}.json");
 
         /// <summary>
@@ -46,7 +81,8 @@ namespace Travelcase.Base
                     return;
                 }
 
-                this.CharacterName = PluginService.ClientState.LocalPlayer?.Name.TextValue;
+                this.CharacterInfo.Name = PluginService.ClientState.LocalPlayer?.Name.TextValue;
+                this.CharacterInfo.World = PluginService.ClientState.LocalPlayer?.HomeWorld.GameData?.Name.RawString;
 
                 Directory.CreateDirectory(GetConfigDir());
                 var configObj = JsonConvert.SerializeObject(this, Formatting.Indented);
@@ -66,8 +102,6 @@ namespace Travelcase.Base
         {
             try
             {
-                this.CharacterName = PluginService.ClientState.LocalPlayer?.Name.TextValue;
-
                 Directory.CreateDirectory(GetConfigDir());
                 var configObj = JsonConvert.SerializeObject(this, Formatting.Indented);
                 File.WriteAllText(UserConfigPath(contentId), configObj);

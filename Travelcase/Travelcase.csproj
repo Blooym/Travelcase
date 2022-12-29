@@ -20,10 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="Travelcase.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <EmbeddedResource Include="Resources\**\*.*" />
+    <EmbeddedResource Include="Resources\**\*.*" Exclude="Resources\**\*Localizable.*" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -31,13 +28,9 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">
+  <PropertyGroup Condition="'$(OS)' != 'Windows_NT' or '$(IsCI)' == 'true'">
     <DalamudLibPath>$(DALAMUD_HOME)/</DalamudLibPath>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(IsCI)' == 'true'">
-      <DalamudLibPath>Dalamud</DalamudLibPath>
   </PropertyGroup>
 
   <ItemGroup>

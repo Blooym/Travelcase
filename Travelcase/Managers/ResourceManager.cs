@@ -43,7 +43,7 @@ namespace Travelcase.Managers
         {
             try
             {
-                using var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream($"Travelcase.Resources.Localization.Plugin.{language}.json");
+                using var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream($"Travelcase.Resources.Localization.{language}.json");
 
                 if (resource == null)
                 {

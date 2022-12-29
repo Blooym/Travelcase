@@ -1,5 +1,8 @@
 namespace Travelcase.Enums
 {
+    /// <summary>
+    ///     A mapping of territory intended use values to their respective names.
+    /// </summary>
     public enum TerritoryIntendedUse : byte
     {
         City = 0,
