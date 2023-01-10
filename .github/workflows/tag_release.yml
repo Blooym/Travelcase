@@ -1,5 +1,3 @@
-# This workflow outlines tasks that are ran when a new tag is made, typically releasing a new plugin version.
-
 name: "Tag: Release"
 
 on:
@@ -15,24 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 6.0.x
-
-      - name: Restore Dependencies
-        run: dotnet restore
-
-      - name: Download Dalamud Library
-        run: |
-          cd Travelcase
-          wget -O Dalamud.zip https://goatcorp.github.io/dalamud-distrib/latest.zip
-          unzip -o -d Dalamud Dalamud.zip
-          export IsCI=true
 
       - name: Get Tag Name
         id: tag_name
@@ -40,12 +23,28 @@ jobs:
         run: >-
           echo "::set-output name=TAG::$(echo ${{ github.ref }} | sed 's/refs\/tags\///' | sed 's/v//')"
 
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Download Dalamud Library
+        run: |
+          wget https://goatcorp.github.io/dalamud-distrib/latest.zip -O /tmp/dalamud.zip
+          unzip /tmp/dalamud.zip -d /tmp/dalamud
+
       - name: Build Plugin
         shell: bash
         run: |
-          dotnet build --configuration Release --nologo -p:AssemblyVersion=${{ steps.tag_name.outputs.TAG }} -p:AssemblyInformationalVersion=${{ steps.tag_name }}
+          dotnet build --configuration Release --nologo -p:AssemblyVersion=${{ steps.tag_name.outputs.TAG }}
           sha512sum Travelcase/bin/x64/Release/Travelcase/latest.zip  >> checksums.txt
           cat checksums.txt
+        env:
+          DALAMUD_HOME: /tmp/dalamud
+          IsCI: true
 
       - name: Release
         uses: softprops/action-gh-release@v1
