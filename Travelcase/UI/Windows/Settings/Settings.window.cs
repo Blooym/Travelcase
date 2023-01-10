@@ -112,10 +112,12 @@ namespace Travelcase.UI.Windows.Settings
 
                     foreach (var t in zonesToDraw)
                     {
-                        var configForGearset = config.GearsetBindings.ContainsKey(t.RowId) ? config.GearsetBindings[t.RowId] : config.GearsetBindings[t.RowId] = new() { Name = t.PlaceName.Value?.Name ?? "???" };
-                        var isEnabled = configForGearset.Enabled;
-                        var slot = configForGearset.GearsetNumber + 1;
-                        var glamourPlate = (int)configForGearset.GlamourPlate;
+                        config.GearsetBindings.TryGetValue(t.RowId, out var binding);
+                        binding ??= config.GearsetBindings[t.RowId] = new() { Name = t.PlaceName.Value?.Name ?? "???" };
+
+                        var isEnabled = binding.Enabled;
+                        var slot = binding.GearsetNumber + 1;
+                        var glamourPlate = (int)binding.GlamourPlate;
 
                         ImGui.TableNextRow();
                         ImGui.TableSetColumnIndex(0);
@@ -127,7 +129,7 @@ namespace Travelcase.UI.Windows.Settings
                         // Enabled checkbox
                         if (ImGui.Checkbox($"##{t.RowId}", ref isEnabled))
                         {
-                            configForGearset.Enabled = isEnabled;
+                            binding.Enabled = isEnabled;
                             config.Save();
                         }
                         ImGui.TableSetColumnIndex(2);
@@ -144,7 +146,7 @@ namespace Travelcase.UI.Windows.Settings
                                 slot = 100;
                             }
 
-                            configForGearset.GearsetNumber = slot - 1;
+                            binding.GearsetNumber = slot - 1;
                             config.Save();
                         }
                         ImGui.TableSetColumnIndex(3);
@@ -161,7 +163,7 @@ namespace Travelcase.UI.Windows.Settings
                                 glamourPlate = 20;
                             }
 
-                            configForGearset.GlamourPlate = Convert.ToByte(glamourPlate);
+                            binding.GlamourPlate = Convert.ToByte(glamourPlate);
                             config.Save();
                         }
                         ImGui.SameLine();

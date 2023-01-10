@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Interface.Windowing;
-using Dalamud.Logging;
 using Travelcase.Base;
 using Travelcase.Localization;
 using Travelcase.UI.Windows.Settings;
@@ -32,19 +31,14 @@ namespace Travelcase.Managers
         /// </summary>
         internal WindowManager()
         {
-            PluginLog.Debug("WindowManager(Constructor): Initializing...");
-
             foreach (var window in this.windows)
             {
-                PluginLog.Debug($"WindowManager(Constructor): Registering window: {window.GetType().Name}");
                 this.WindowSystem.AddWindow(window);
             }
 
             PluginService.PluginInterface.UiBuilder.Draw += this.OnDrawUI;
             PluginService.PluginInterface.UiBuilder.OpenConfigUi += this.OnOpenConfigUI;
             PluginService.ClientState.Logout += this.OnLogout;
-
-            PluginLog.Debug("WindowManager(Constructor): Successfully initialized.");
         }
 
         /// <summary>
@@ -86,13 +80,10 @@ namespace Travelcase.Managers
 
             foreach (var window in this.windows.OfType<IDisposable>())
             {
-                PluginLog.Debug($"WindowManager(Dispose): Disposing of {window.GetType().Name}...");
                 window.Dispose();
             }
 
             this.WindowSystem.RemoveAllWindows();
-
-            PluginLog.Debug("WindowManager(Dispose): Successfully disposed.");
         }
     }
 }

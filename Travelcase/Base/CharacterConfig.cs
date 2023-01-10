@@ -39,7 +39,7 @@ namespace Travelcase.Base
         /// <summary>
         ///     Information about a gearset configuration, such as the number and linked glamour plate.
         /// </summary>
-        public class Gearset
+        public sealed class Gearset
         {
             public string Name { get; set; } = string.Empty;
             public int GearsetNumber { get; set; }
@@ -51,7 +51,7 @@ namespace Travelcase.Base
         ///     Information about the character, only used for helping identify configuration files manually.
         ///     The information in this class should not be used as it is not guaranteed to be accurate.
         /// </summary>
-        public class CharacterInformation
+        public sealed class CharacterInformation
         {
             public string? Name { get; set; }
             public string? World { get; set; }

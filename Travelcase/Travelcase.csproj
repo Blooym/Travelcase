@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
+  <!-- Project Configuration -->
   <PropertyGroup>
+    <Title>Travelcase</Title>
+    <Authors>BitsOfAByte</Authors>
     <Version>0.1.1.10</Version>
+    <Description>Pack your gearsets and glamours up and change into them when entering specified zones.</Description>
+    <RepositoryUrl>https://github.com/BitsOfAByte/Travelcase</RepositoryUrl>
     <PackageProjectUrl>https://github.com/BitsOfAByte/Travelcase</PackageProjectUrl>
     <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
   </PropertyGroup>
 
+  <!-- Build Configuration -->
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <Platforms>x64</Platforms>
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\$(Configuration)\</OutputPath>
@@ -19,22 +25,24 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
+  <!-- Project Configuration -->
   <ItemGroup>
     <EmbeddedResource Include="Resources\**\*.*" Exclude="Resources\**\*Localizable.*" />
   </ItemGroup>
 
+  <!-- Dalamud Path -->
   <PropertyGroup>
     <DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(OS)' != 'Windows_NT' or '$(IsCI)' == 'true'">
     <DalamudLibPath>$(DALAMUD_HOME)/</DalamudLibPath>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
+  <!-- Dalamud References -->
   <ItemGroup>
-    <PackageReference Include="DalamudPackager" Version="2.1.8" />
+    <PackageReference Include="DalamudPackager" Version="2.1.10" />
     <Reference Include="FFXIVClientStructs">
       <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
       <Private>false</Private>

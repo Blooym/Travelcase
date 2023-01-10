@@ -17,27 +17,12 @@ namespace Travelcase.Managers
         /// <summary>
         ///     Initializes the GearsetManager and its resources.
         /// </summary>
-        public GearsetManager()
-        {
-            PluginLog.Debug("GearsetManager(Initialize): Initializing gearset manager.");
-
-            PluginService.ClientState.TerritoryChanged += this.OnTerritoryChanged;
-
-            PluginLog.Debug("GearsetManager(Initialize): Successfully initialized gearset manager.");
-        }
+        public GearsetManager() => PluginService.ClientState.TerritoryChanged += this.OnTerritoryChanged;
 
         /// <summary>
         ///      Disposes of the GearsetManager and associated resources.
         /// </summary>
-        public void Dispose()
-        {
-            PluginLog.Debug("GearsetManager(Dispose): Disposing of gearset manager.");
-
-            PluginService.ClientState.TerritoryChanged -= this.OnTerritoryChanged;
-            GC.SuppressFinalize(this);
-
-            PluginLog.Debug("GearsetManager(Dispose): Successfully disposed of gearset manager.");
-        }
+        public void Dispose() => PluginService.ClientState.TerritoryChanged -= this.OnTerritoryChanged;
 
         /// <summary>
         ///     The player's stored territory, used to prevent gearset switching more than 1 time per territory.

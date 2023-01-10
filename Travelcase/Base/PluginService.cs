@@ -3,7 +3,6 @@ using Dalamud.Game;
 using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.IoC;
-using Dalamud.Logging;
 using Dalamud.Plugin;
 using Travelcase.Managers;
 
@@ -14,20 +13,18 @@ namespace Travelcase.Base
     /// </summary>
     internal sealed class PluginService
     {
-#pragma warning disable CS8618, RCS1170 // Injection is handled by the Dalamud Plugin Framework here.
-        [PluginService] internal static DalamudPluginInterface PluginInterface { get; private set; }
-        [PluginService] internal static Dalamud.Game.Command.CommandManager Commands { get; private set; }
-        [PluginService] internal static ClientState ClientState { get; private set; }
-        [PluginService] internal static DataManager DataManager { get; private set; }
-        [PluginService] internal static Condition Condition { get; private set; }
-        [PluginService] internal static Framework Framework { get; private set; }
+        [PluginService] internal static DalamudPluginInterface PluginInterface { get; private set; } = null!;
+        [PluginService] internal static Dalamud.Game.Command.CommandManager Commands { get; private set; } = null!;
+        [PluginService] internal static ClientState ClientState { get; private set; } = null!;
+        [PluginService] internal static DataManager DataManager { get; private set; } = null!;
+        [PluginService] internal static Condition Condition { get; private set; } = null!;
+        [PluginService] internal static Framework Framework { get; private set; } = null!;
 
-        internal static CommandManager CommandManager { get; private set; }
-        internal static WindowManager WindowManager { get; private set; }
-        internal static CharacterConfigManager CharacterConfig { get; private set; }
-        internal static ResourceManager Resources { get; private set; }
-        internal static GearsetManager GearsetManager { get; private set; }
-#pragma warning restore CS8618, RCS1170
+        internal static CommandManager CommandManager { get; private set; } = null!;
+        internal static WindowManager WindowManager { get; private set; } = null!;
+        internal static CharacterConfigManager CharacterConfig { get; private set; } = null!;
+        internal static ResourceManager Resources { get; private set; } = null!;
+        internal static GearsetManager GearsetManager { get; private set; } = null!;
 
         /// <summary>
         ///     Initializes the service class.
@@ -39,8 +36,6 @@ namespace Travelcase.Base
             CommandManager = new CommandManager();
             CharacterConfig = new CharacterConfigManager();
             GearsetManager = new GearsetManager();
-
-            PluginLog.Debug("PluginService(Initialize): Successfully initialized plugin services.");
         }
 
         /// <summary>
@@ -52,8 +47,7 @@ namespace Travelcase.Base
             CommandManager.Dispose();
             CharacterConfig.Dispose();
             GearsetManager.Dispose();
-
-            PluginLog.Debug("PluginService(Initialize): Successfully disposed of plugin services.");
+            Resources.Dispose();
         }
     }
 }

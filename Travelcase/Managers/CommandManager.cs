@@ -1,6 +1,5 @@
 using System;
 using Dalamud.Game.Command;
-using Dalamud.Logging;
 using Travelcase.Base;
 using Travelcase.Localization;
 using Travelcase.UI.Windows.Settings;
@@ -17,26 +16,12 @@ namespace Travelcase.Managers
         /// <summary>
         ///     Initializes the CommandManager and its resources.
         /// </summary>
-        public CommandManager()
-        {
-            PluginLog.Debug("CommandManager(Constructor): Initializing...");
-
-            PluginService.Commands.AddHandler(SettingsCommand, new CommandInfo(this.OnCommand) { HelpMessage = TCommands.SettingsHelp, ShowInHelp = true });
-
-            PluginLog.Debug("CommandManager(Constructor): Initialization complete.");
-        }
+        public CommandManager() => PluginService.Commands.AddHandler(SettingsCommand, new CommandInfo(this.OnCommand) { HelpMessage = TCommands.SettingsHelp, ShowInHelp = true });
 
         /// <summary>
         ///     Dispose of the PluginCommandManager and its resources.
         /// </summary>
-        public void Dispose()
-        {
-            PluginLog.Debug("CommandManager(Dispose): Disposing...");
-
-            PluginService.Commands.RemoveHandler(SettingsCommand);
-
-            PluginLog.Debug("CommandManager(Dispose): Successfully disposed.");
-        }
+        public void Dispose() => PluginService.Commands.RemoveHandler(SettingsCommand);
 
         /// <summary>
         ///     Event handler for when a command is issued by the user.

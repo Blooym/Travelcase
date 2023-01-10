@@ -17,23 +17,14 @@ namespace Travelcase.Managers
         /// </summary>
         internal ResourceManager()
         {
-            PluginLog.Debug("ResourceManager(ResourceManager): Initializing...");
-
             this.Setup(PluginService.PluginInterface.UiLanguage);
             PluginService.PluginInterface.LanguageChanged += this.Setup;
-
-            PluginLog.Debug("ResourceManager(ResourceManager): Initialization complete.");
         }
 
         /// <summary>
         ///      Disposes of the ResourceManager and associated resources.
         /// </summary>
-        public void Dispose()
-        {
-            PluginService.PluginInterface.LanguageChanged -= this.Setup;
-
-            PluginLog.Debug("ResourceManager(Dispose): Successfully disposed.");
-        }
+        public void Dispose() => PluginService.PluginInterface.LanguageChanged -= this.Setup;
 
         /// <summary>
         ///     Sets up the plugin's resources.
