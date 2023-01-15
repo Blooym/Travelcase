@@ -1,9 +1,13 @@
-name: "Tag: Release"
+name: Release
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 on:
   push:
     tags:
-      - "v*.*.*.*"
+      - 'v*'
 
 permissions:
   contents: write
@@ -11,46 +15,76 @@ permissions:
 jobs:
   Release:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Travelcase/
+        shell: bash
+    env:
+      DALAMUD_HOME: /tmp/dalamud
+      IsCI: true
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          submodules: true
 
-      - name: Get Tag Name
-        id: tag_name
-        shell: bash
-        run: >-
-          echo "::set-output name=TAG::$(echo ${{ github.ref }} | sed 's/refs\/tags\///' | sed 's/v//')"
-
-      - name: Set up .NET
+      - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.x
-
-      - name: Restore Dependencies
-        run: dotnet restore
 
       - name: Download Dalamud Library
         run: |
           wget https://goatcorp.github.io/dalamud-distrib/latest.zip -O /tmp/dalamud.zip
           unzip /tmp/dalamud.zip -d /tmp/dalamud
 
-      - name: Build Plugin
-        shell: bash
-        run: |
-          dotnet build --configuration Release --nologo -p:AssemblyVersion=${{ steps.tag_name.outputs.TAG }}
-          sha512sum Travelcase/bin/x64/Release/Travelcase/latest.zip  >> checksums.txt
-          cat checksums.txt
-        env:
-          DALAMUD_HOME: /tmp/dalamud
-          IsCI: true
+      - name: Restore Dependencies
+        run: dotnet restore
 
-      - name: Release
+      - name: Build plugin in release mode
+        run: dotnet build -c Release --no-restore --nologo -o ./bin/Release
+
+      - name: Generate Checksums
+        working-directory: Travelcase/bin/Release/Travelcase
+        run: |
+          sha512sum latest.zip >> checksums.sha512
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          generate_release_notes: true
-          prerelease: false
           files: |
-            Travelcase/bin/x64/Release/Travelcase/latest.zip
-            checksums.txt
+            Travelcase/bin/Release/Travelcase/latest.zip
+            Travelcase/bin/Release/Travelcase/checksums.sha512
+          prerelease: false
+          append_body: true
+          body_path: .github/release-notices.md
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Release Artifacts
+          path: |
+            Travelcase/bin/Release/Travelcase/latest.zip
+            Travelcase/bin/Release/Travelcase/checksums.sha512
+
+      - name: Update repo.json
+        run: |
+          cd ../
+
+          export TAG_NAME=$(echo ${{ github.ref_name }} | sed 's/^v//')
+          export REPO_LOCATION=$(echo ${{ github.server_url }}/${{ github.repository }} | sed  's/\//\\\//g')
+
+          sed -i "s/\"AssemblyVersion\": \"[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\"/\"AssemblyVersion\": \"${TAG_NAME}\"/g" repo.json
+          sed -i "s/\"TestingAssemblyVersion\": \"[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\"/\"TestingAssemblyVersion\": \"${TAG_NAME}\"/g" repo.json
+          sed -i "s/\"DownloadLinkInstall\": \"[^\"]*\"/\"DownloadLinkInstall\": \"$REPO_LOCATION\/releases\/download\/${{ github.ref_name }}\/latest.zip\"/g" repo.json
+          sed -i "s/\"DownloadLinkTesting\": \"[^\"]*\"/\"DownloadLinkTesting\": \"$REPO_LOCATION\/releases\/download\/${{ github.ref_name }}\/latest.zip\"/g" repo.json
+          sed -i "s/\"DownloadLinkUpdate\": \"[^\"]*\"/\"DownloadLinkUpdate\": \"$REPO_LOCATION\/releases\/download\/${{ github.ref_name }}\/latest.zip\"/g" repo.json
+
+          git add repo.json
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update repo.json for ${{ github.ref_name }}"
+          
+          git push origin HEAD:main
