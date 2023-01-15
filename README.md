@@ -7,7 +7,6 @@
 Pack your gearsets & glamours up and change into them when entering specified zones.
 
 [![Latest Stable](https://img.shields.io/github/v/release/BitsOfAByte/Travelcase?color=blue&label=Stable)](https://github.com/BitsOfAByte/Travelcase/releases/latest)
-[![Latest Testing](https://img.shields.io/github/v/release/BitsOfAByte/Travelcase?color=orange&include_prereleases&label=Testing)](https://github.com/BitsOfAByte/Travelcase/releases/latest)
 
 **[Issues](https://github.com/BitsOfAByte/Travelcase/issues) · [Pull Requests](https://github.com/BitsOfAByte/Travelcase/pulls) · [Releases](https://github.com/BitsOfAByte/Travelcase/releases/latest)**
 
@@ -18,7 +17,7 @@ Pack your gearsets & glamours up and change into them when entering specified zo
 <!-- Repository Header End -->
 
 ## About 
-Travelcase is a plugin that lets you set per-character per-zone gearsets and glamours. When entering a specified zone, the plugin will automatically change your gear and glamour to the specified set as long as it is valid and passes the validation checks.
+Travelcase is a plugin that lets you set per-character, per-zone gearsets and glamours. When entering a specified zone, the plugin will automatically change your gear and glamour to the specified set as long as it is valid and passes the validation checks. This is useful if you like to put on a coat when entering a snowy area, or want to cool off in beach zones.
 
 ## Features
 - Set per-character per-zone gearsets and glamours
@@ -37,6 +36,3 @@ This plugin can be installed as a 3rd-party plugin via the Dalamud Plugin Instal
 ```
 https://raw.githubusercontent.com/BitsOfAByte/Travelcase/main/repo.json
 ```
-
-## Contributing
-Contributions are currently not being accepted for this plugin. If you would like to contribute, please open an issue to discuss your changes. 
