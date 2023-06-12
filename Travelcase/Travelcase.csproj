@@ -3,11 +3,11 @@
   <!-- Project Configuration -->
   <PropertyGroup>
     <Title>Travelcase</Title>
-    <Authors>BitsOfAByte</Authors>
+    <Authors>Blooym</Authors>
     <Version>0.2.0.0</Version>
     <Description>Pack your gearsets and glamours up and change into them when entering specified zones.</Description>
-    <RepositoryUrl>https://github.com/BitsOfAByte/Travelcase</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/BitsOfAByte/Travelcase</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Blooym/Travelcase</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Blooym/Travelcase</PackageProjectUrl>
     <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
   </PropertyGroup>
 

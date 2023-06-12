@@ -6,9 +6,9 @@
 ### Travelcase
 Pack your gearsets & glamours up and change into them when entering specified zones.
 
-[![Latest Stable](https://img.shields.io/github/v/release/BitsOfAByte/Travelcase?color=blue&label=Stable)](https://github.com/BitsOfAByte/Travelcase/releases/latest)
+[![Latest Stable](https://img.shields.io/github/v/release/Blooym/Travelcase?color=blue&label=Stable)](https://github.com/Blooym/Travelcase/releases/latest)
 
-**[Issues](https://github.com/BitsOfAByte/Travelcase/issues) · [Pull Requests](https://github.com/BitsOfAByte/Travelcase/pulls) · [Releases](https://github.com/BitsOfAByte/Travelcase/releases/latest)**
+**[Issues](https://github.com/Blooym/Travelcase/issues) · [Pull Requests](https://github.com/Blooym/Travelcase/pulls) · [Releases](https://github.com/Blooym/Travelcase/releases/latest)**
 
 </div>
 
@@ -27,12 +27,12 @@ Travelcase is a plugin that lets you set per-character, per-zone gearsets and gl
 
 ## Installation
 > **Warning**  
-> No support will be provided on any Dalamud official support channel. Please use the [Issues](https://github.com/BitsOfAByte/Travelcase/issues) page for any support requests. Do NOT ask for support anywhere else, as support for 3rd-party plugins is not provided by the Dalamud team. 
+> No support will be provided on any Dalamud official support channel. Please use the [Issues](https://github.com/Blooym/Travelcase/issues) page for any support requests. Do NOT ask for support anywhere else, as support for 3rd-party plugins is not provided by the Dalamud team. 
 > 
 > Additionally, you should understand that this plugin changes your gear and glamour, and as such, could be detected by other players or a GM, use at your own risk.
 
 This plugin can be installed as a 3rd-party plugin via the Dalamud Plugin Installer. To do so, add the following URL to `Settings > Experimental > Custom Plugin Repositories`:
 
 ```
-https://raw.githubusercontent.com/BitsOfAByte/Travelcase/main/repo.json
+https://raw.githubusercontent.com/Blooym/Travelcase/main/repo.json
 ```
