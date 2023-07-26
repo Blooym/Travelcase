@@ -1,0 +1,3 @@
+[submodule "src/Sirensong"]
+	path = src/Sirensong
+	url = https://github.com/Blooym/Sirensong.git

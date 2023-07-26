@@ -1,7 +1,9 @@
-.vs/
-obj/
-bin/
-Lib/
+# Log files
+**/*.log
+
+# MacOS
+**/.DS_Store
+
+# IDE
 .idea/
-*.user
-*.log
+*.DotSettings*

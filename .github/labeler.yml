@@ -1,14 +1,8 @@
-changes | resources:
-  - "Travelcase/Resources/**/*"
+changes | l10n/i18n:
+  - "src/Travelcase/Localization/Resources/**/*"
 
 changes | ci:
   - ".github/workflows/**/*"
 
 changes | plugin:
-  - "Travelcase/**/*.cs"
-
-changes | assets:
-  - ".assets/**"
-
-changes | docs:
-  - "**.md"
+  - "src/Travelcase/**/*"

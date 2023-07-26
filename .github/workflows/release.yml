@@ -1,0 +1,92 @@
+name: Release
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  Release:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Travelcase/
+        shell: bash
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      DALAMUD_HOME: /tmp/dalamud
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+
+      - name: Download Dalamud
+        run: |
+          wget https://goatcorp.github.io/dalamud-distrib/latest.zip -O /tmp/dalamud.zip
+          unzip /tmp/dalamud.zip -d ${{ env.DALAMUD_HOME }}
+
+      - name: Cache Nuget Packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore Nuget Packages
+        run: dotnet restore
+
+      - name: Build Plugin
+        run: dotnet build -c Release --no-restore --nologo -o ./bin/Release
+
+      - name: Generate Checksums
+        working-directory: Travelcase/bin/Release/Travelcase
+        run: |
+          sha512sum latest.zip >> checksums.sha512
+          cat checksums.sha512
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            Travelcase/bin/Release/Travelcase/latest.zip
+            Travelcase/bin/Release/Travelcase/checksums.sha512
+          prerelease: false
+          append_body: true
+          body_path: .github/release-notices.md
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+
+      - name: Update repo.json
+        run: |
+          cd ../
+
+          export TAG_NAME=$(echo ${{ github.ref_name }} | sed 's/^v//')
+          export REPO_LOCATION=$(echo ${{ github.server_url }}/${{ github.repository }} | sed  's/\//\\\//g')
+
+          sed -i "s/\"AssemblyVersion\": \"[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\"/\"AssemblyVersion\": \"${TAG_NAME}\"/g" repo.json
+          sed -i "s/\"TestingAssemblyVersion\": \"[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\"/\"TestingAssemblyVersion\": \"${TAG_NAME}\"/g" repo.json
+          sed -i "s/\"DownloadLinkInstall\": \"[^\"]*\"/\"DownloadLinkInstall\": \"$REPO_LOCATION\/releases\/download\/${{ github.ref_name }}\/latest.zip\"/g" repo.json
+          sed -i "s/\"DownloadLinkTesting\": \"[^\"]*\"/\"DownloadLinkTesting\": \"$REPO_LOCATION\/releases\/download\/${{ github.ref_name }}\/latest.zip\"/g" repo.json
+          sed -i "s/\"DownloadLinkUpdate\": \"[^\"]*\"/\"DownloadLinkUpdate\": \"$REPO_LOCATION\/releases\/download\/${{ github.ref_name }}\/latest.zip\"/g" repo.json
+
+          git add repo.json
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update repo.json for ${{ github.ref_name }}"
+          
+          git push origin HEAD:main

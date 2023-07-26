@@ -1,4 +1,3 @@
-<!-- Repository Header Begin -->
 <div align="center">
 
 <img src="./.assets/icon.png" alt="Travelcase Logo" width="15%">
@@ -6,15 +5,12 @@
 ### Travelcase
 Pack your gearsets & glamours up and change into them when entering specified zones.
 
-[![Latest Stable](https://img.shields.io/github/v/release/Blooym/Travelcase?color=blue&label=Stable)](https://github.com/Blooym/Travelcase/releases/latest)
+[![Latest Version](https://img.shields.io/github/v/release/Blooym/Travelcase?color=blue&label=Version)](https://github.com/Blooym/Travelcase/releases/latest)
+[![Licence](https://img.shields.io/github/license/Blooym/Travelcase?color=blue&label=Licence)](https://github.com/Blooym/Travelcase/blob/main/LICENCE)
 
 **[Issues](https://github.com/Blooym/Travelcase/issues) · [Pull Requests](https://github.com/Blooym/Travelcase/pulls) · [Releases](https://github.com/Blooym/Travelcase/releases/latest)**
 
 </div>
-
----
-
-<!-- Repository Header End -->
 
 ## About 
 Travelcase is a plugin that lets you set per-character, per-zone gearsets and glamours. When entering a specified zone, the plugin will automatically change your gear and glamour to the specified set as long as it is valid and passes the validation checks. This is useful if you like to put on a coat when entering a snowy area, or want to cool off in beach zones.
