@@ -11,9 +11,10 @@
     "customizations": {
         "vscode": {
             "extensions": [
-				"ms-dotnettools.csharp",
-				"tintoy.msbuild-project-tools",
-				"kreativ-software.csharpextensions"
+                "ms-dotnettools.csharp@1.26.0",
+                "tintoy.msbuild-project-tools",
+                "kreativ-software.csharpextensions",
+                "fernandoescolar.vscode-solution-explorer",
             ]
         }
     }

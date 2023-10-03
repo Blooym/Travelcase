@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Dalamud.Logging;
 using Newtonsoft.Json;
 
 namespace Travelcase.Base
@@ -77,7 +76,7 @@ namespace Travelcase.Base
                 var contentId = PluginService.ClientState.LocalContentId;
                 if (contentId == 0)
                 {
-                    PluginLog.Warning("CharacterConfiguration(Save): No ContentID found, not able to save user configuration.");
+                    PluginService.PluginLog.Warning("CharacterConfiguration(Save): No ContentID found, not able to save user configuration.");
                     return;
                 }
 
@@ -90,7 +89,7 @@ namespace Travelcase.Base
             }
             catch (Exception e)
             {
-                PluginLog.Error($"CharacterConfiguration(Save): Failed to save character configuration to file: {e}");
+                PluginService.PluginLog.Error($"CharacterConfiguration(Save): Failed to save character configuration to file: {e}");
             }
         }
 
@@ -108,7 +107,7 @@ namespace Travelcase.Base
             }
             catch (Exception e)
             {
-                PluginLog.Error($"CharacterConfiguration(Save): Failed to save character configuration to file: {e}");
+                PluginService.PluginLog.Error($"CharacterConfiguration(Save): Failed to save character configuration to file: {e}");
             }
         }
 
@@ -120,7 +119,7 @@ namespace Travelcase.Base
             var contentID = PluginService.ClientState.LocalContentId;
             if (contentID == 0)
             {
-                PluginLog.Warning("CharacterConfiguration(Load): No ContentID found, not able to load configuration.");
+                PluginService.PluginLog.Warning("CharacterConfiguration(Load): No ContentID found, not able to load configuration.");
                 return null;
             }
 
@@ -133,11 +132,11 @@ namespace Travelcase.Base
             try
             {
                 var configObj = JsonConvert.DeserializeObject<CharacterConfiguration>(File.ReadAllText(configPath));
-                return configObj ?? (CharacterConfiguration?)(new());
+                return configObj ?? (CharacterConfiguration?)new();
             }
             catch (Exception e)
             {
-                PluginLog.Error($"CharacterConfiguration(Load): Failed to load character configuration from {configPath}: {e.Message}");
+                PluginService.PluginLog.Error($"CharacterConfiguration(Load): Failed to load character configuration from {configPath}: {e.Message}");
                 return null;
             }
         }
@@ -160,7 +159,7 @@ namespace Travelcase.Base
             }
             catch (Exception e)
             {
-                PluginLog.Error($"CharacterConfiguration(Load): Failed to load character configuration from {configPath}: {e.Message}");
+                PluginService.PluginLog.Error($"CharacterConfiguration(Load): Failed to load character configuration from {configPath}: {e.Message}");
                 return null;
             }
         }

@@ -51,7 +51,7 @@ namespace Travelcase.Managers
         /// </summary>
         private void OnOpenConfigUI()
         {
-            if (this.WindowSystem.GetWindow(TWindowNames.Settings) is SettingsWindow window)
+            if (this.WindowSystem.Windows.First(w => w.WindowName == TWindowNames.Settings) is SettingsWindow window)
             {
                 window.IsOpen = !window.IsOpen;
             }
@@ -62,7 +62,7 @@ namespace Travelcase.Managers
         /// </summary>
         /// <param name="e"></param>
         /// <param name="args"></param>
-        public void OnLogout(object? e, EventArgs args)
+        public void OnLogout()
         {
             foreach (var window in this.windows)
             {

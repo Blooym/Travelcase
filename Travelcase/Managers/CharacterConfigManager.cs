@@ -1,5 +1,4 @@
 using System;
-using Dalamud.Logging;
 using Travelcase.Base;
 
 namespace Travelcase.Managers
@@ -40,13 +39,13 @@ namespace Travelcase.Managers
             {
                 if (this.CurrentConfig != null)
                 {
-                    PluginLog.Information("CharacterConfigManager(OnFrameworkUpdate): Player logged out, unloading their config.");
+                    PluginService.PluginLog.Information("CharacterConfigManager(OnFrameworkUpdate): Player logged out, unloading their config.");
                     this.CurrentConfig = null;
                 }
             }
             else if (this.CurrentConfig == null)
             {
-                PluginLog.Information("CharacterConfigManager(OnFrameworkUpdate): Player logged in, loading their config.");
+                PluginService.PluginLog.Information("CharacterConfigManager(OnFrameworkUpdate): Player logged in, loading their config.");
                 this.CurrentConfig = LoadConfig();
             }
         }
@@ -56,7 +55,7 @@ namespace Travelcase.Managers
         /// </summary>
         private static CharacterConfiguration? LoadConfig()
         {
-            PluginLog.Debug("CharacterConfigManager(LoadConfig): Loading configuration");
+            PluginService.PluginLog.Debug("CharacterConfigManager(LoadConfig): Loading configuration");
             return CharacterConfiguration.Load(PluginService.ClientState.LocalContentId);
         }
     }

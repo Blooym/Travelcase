@@ -1,7 +1,8 @@
 {
     "recommendations": [
-        "editorconfig.editorconfig",
+        "ms-dotnettools.csharp",
         "tintoy.msbuild-project-tools",
-        "kreativ-software.csharpextensions"
+        "kreativ-software.csharpextensions",
+        "fernandoescolar.vscode-solution-explorer",
     ]
 }

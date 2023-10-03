@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Dalamud.Game.Command;
 using Travelcase.Base;
 using Travelcase.Localization;
@@ -45,9 +46,9 @@ namespace Travelcase.Managers
                     { config.OnlyInRoleplayMode = !config.OnlyInRoleplayMode; config.Save(); }
                     break;
                 case SettingsCommand when args?.Length == 0:
-                    if (windowSystem.GetWindow(TWindowNames.Settings) is SettingsWindow settingsWindow)
+                    if (windowSystem.Windows.FirstOrDefault(w => w.WindowName == TWindowNames.Settings) is SettingsWindow window)
                     {
-                        settingsWindow.IsOpen = !settingsWindow.IsOpen;
+                        window.IsOpen = !window.IsOpen;
                     }
                     break;
             }
