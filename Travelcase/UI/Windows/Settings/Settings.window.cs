@@ -21,9 +21,7 @@ namespace Travelcase.UI.Windows.Settings
                 MaximumSize = new Vector2(1200, 1000)
             };
             this.Size = new Vector2(850, 450);
-
             this.SizeCondition = ImGuiCond.FirstUseEver;
-
             this.Presenter = new SettingsPresenter();
         }
         public void Dispose() => this.Presenter.Dispose();
@@ -102,73 +100,81 @@ namespace Travelcase.UI.Windows.Settings
                 var zonesToDraw = DataUtil.AllowedZones?.Where(z => z.PlaceName?.Value?.Name.ToString().Contains(this.searchQuery, StringComparison.OrdinalIgnoreCase) ?? false).ToList();
                 if (zonesToDraw?.Count > 0)
                 {
-                    ImGui.BeginTable("##SettingsTable", 4, ImGuiTableFlags.ScrollY);
-                    ImGui.TableSetupScrollFreeze(0, 1);
-                    ImGui.TableSetupColumn(TSettings.Zone);
-                    ImGui.TableSetupColumn(TSettings.Enabled, ImGuiTableColumnFlags.WidthFixed, 100);
-                    ImGui.TableSetupColumn(TSettings.GearsetSlot);
-                    ImGui.TableSetupColumn(TSettings.GlamourPlate);
-                    ImGui.TableHeadersRow();
-
-                    foreach (var t in zonesToDraw)
+                    if (ImGui.BeginTable("##SettingsTable", 4, ImGuiTableFlags.ScrollY))
                     {
-                        config.GearsetBindings.TryGetValue(t.RowId, out var binding);
-                        binding ??= config.GearsetBindings[t.RowId] = new() { Name = t.PlaceName.Value?.Name ?? "???" };
+                        ImGui.TableSetupScrollFreeze(0, 1);
+                        ImGui.TableSetupColumn(TSettings.Zone);
+                        ImGui.TableSetupColumn(TSettings.Enabled, ImGuiTableColumnFlags.WidthFixed, 100);
+                        ImGui.TableSetupColumn(TSettings.GearsetSlot);
+                        ImGui.TableSetupColumn(TSettings.GlamourPlate);
+                        ImGui.TableHeadersRow();
 
-                        var isEnabled = binding.Enabled;
-                        var slot = binding.GearsetNumber + 1;
-                        var glamourPlate = (int)binding.GlamourPlate;
-
-                        ImGui.TableNextRow();
-                        ImGui.TableSetColumnIndex(0);
-
-                        // Name of the territory
-                        ImGui.Text($"{t.PlaceName.Value?.Name}");
-                        ImGui.TableSetColumnIndex(1);
-
-                        // Enabled checkbox
-                        if (ImGui.Checkbox($"##{t.RowId}", ref isEnabled))
+                        foreach (var t in zonesToDraw)
                         {
-                            binding.Enabled = isEnabled;
-                            config.Save();
+                            var name = t.PlaceName.Value?.Name;
+                            if (string.IsNullOrEmpty(name?.ToString()))
+                            {
+                                continue;
+                            }
+
+                            config.GearsetBindings.TryGetValue(t.RowId, out var binding);
+                            binding ??= config.GearsetBindings[t.RowId] = new() { Name = t.PlaceName.Value?.Name ?? "???" };
+
+                            var isEnabled = binding.Enabled;
+                            var slot = binding.GearsetNumber + 1;
+                            var glamourPlate = (int)binding.GlamourPlate;
+
+                            ImGui.TableNextRow();
+                            ImGui.TableSetColumnIndex(0);
+
+                            // Name of the territory
+                            ImGui.Text(name);
+                            ImGui.TableSetColumnIndex(1);
+
+                            // Enabled checkbox
+                            if (ImGui.Checkbox($"##{t.RowId}", ref isEnabled))
+                            {
+                                binding.Enabled = isEnabled;
+                                config.Save();
+                            }
+                            ImGui.TableSetColumnIndex(2);
+
+                            // Slot input
+                            if (ImGui.InputInt($"##{t.RowId}Slot", ref slot, 1, 1))
+                            {
+                                if (slot < 1)
+                                {
+                                    slot = 1;
+                                }
+                                if (slot > 101)
+                                {
+                                    slot = 100;
+                                }
+
+                                binding.GearsetNumber = slot - 1;
+                                config.Save();
+                            }
+                            ImGui.TableSetColumnIndex(3);
+
+                            // Glamour plate input
+                            if (ImGui.InputInt($"##{t.RowId}Glam", ref glamourPlate, 1, 1))
+                            {
+                                if (glamourPlate < 0)
+                                {
+                                    glamourPlate = 0;
+                                }
+                                else if (glamourPlate > 20)
+                                {
+                                    glamourPlate = 20;
+                                }
+
+                                binding.GlamourPlate = Convert.ToByte(glamourPlate);
+                                config.Save();
+                            }
+                            ImGui.SameLine();
                         }
-                        ImGui.TableSetColumnIndex(2);
-
-                        // Slot input
-                        if (ImGui.InputInt($"##{t.RowId}Slot", ref slot, 1, 1))
-                        {
-                            if (slot < 1)
-                            {
-                                slot = 1;
-                            }
-                            if (slot > 101)
-                            {
-                                slot = 100;
-                            }
-
-                            binding.GearsetNumber = slot - 1;
-                            config.Save();
-                        }
-                        ImGui.TableSetColumnIndex(3);
-
-                        // Glamour plate input
-                        if (ImGui.InputInt($"##{t.RowId}Glam", ref glamourPlate, 1, 1))
-                        {
-                            if (glamourPlate < 0)
-                            {
-                                glamourPlate = 0;
-                            }
-                            else if (glamourPlate > 20)
-                            {
-                                glamourPlate = 20;
-                            }
-
-                            binding.GlamourPlate = Convert.ToByte(glamourPlate);
-                            config.Save();
-                        }
-                        ImGui.SameLine();
+                        ImGui.EndTable();
                     }
-                    ImGui.EndTable();
                     ImGui.EndDisabled();
                 }
                 else
