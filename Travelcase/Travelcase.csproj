@@ -2,7 +2,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="Dalamud.Plugin.Bootstrap.targets" />
 
-  <!-- Project Configuration -->
   <PropertyGroup>
     <Title>Travelcase</Title>
     <Authors>Blooym</Authors>
@@ -14,15 +13,17 @@
     <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
   </PropertyGroup>
 
-  <!-- Build Configuration -->
   <PropertyGroup>
     <OutputPath>bin\x64\$(Configuration)\</OutputPath>
     <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
-  <!-- Project Configuration -->
   <ItemGroup>
     <EmbeddedResource Include="Resources\**\*.*" Exclude="Resources\**\*Localizable.*" />
+    <Reference Include="CheapLoc">
+      <Private>false</Private>
+      <HintPath>$(DalamudLibPath)CheapLoc.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
