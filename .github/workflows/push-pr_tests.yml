@@ -3,52 +3,63 @@ name: "Push/PR: Tests"
 on:
   push:
     branches: [main]
+    paths:
+      - "Travelcase/**/*.cs"
+      - "Travelcase/**/*.csproj"
+      - "Travelcase/**/*.resx"
   pull_request:
     branches: [main]
-    types: [ready_for_review, opened, synchronize]
+    paths:
+      - "Travelcase/**/*.cs"
+      - "Travelcase/**/*.csproj"
+      - "Travelcase/**/*.resx"
+    types: [ready_for_review, opened, synchronize, reopened]
+  workflow_dispatch:
 
 jobs:
   Build:
-    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: Travelcase/
-        shell: bash
     strategy:
+      fail-fast: false
       matrix:
-        dotnet-version: [7.0.x]
-    env:
-      DALAMUD_HOME: /tmp/dalamud
-      IsCI: true
+        build_mode: ["Release", "Debug"]
+        dalamud-branch: ["release", "stg"]
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: true
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: 7.0.x
 
-      - name: Download Dalamud Library
+      - name: Setup Dalamud
+        uses: Blooym/setup-dalamud@v1
+        with:
+          branch: ${{ matrix.dalamud-branch }}
+
+      - name: Check for Lint Errors
+        id: lint
+        working-directory: Travelcase
+        continue-on-error: true
+        run: | 
+          dotnet format --verify-no-changes > lint.txt 2>&1
+
+      - name: Report Lint Errors
+        working-directory: Travelcase
+        if : steps.lint.outcome == 'failure'
         run: |
-          wget https://goatcorp.github.io/dalamud-distrib/latest.zip -O /tmp/dalamud.zip
-          unzip /tmp/dalamud.zip -d /tmp/dalamud
+          cat lint.txt | sed -E 's/^(.*)$/::warning:: \1/g'
 
-      - name: Restore Dependencies
+      - name: Restore Project
+        working-directory: Travelcase
         run: dotnet restore
 
-      - name: Build plugin in debug mode
-        run: dotnet build -c Debug --no-restore --nologo
-
-      - name: Build plugin in release mode
-        run: dotnet build -c Release --no-restore --nologo
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: Build Artifacts
-          path: Travelcase/bin/
+      - name: Build Project
+        working-directory: Travelcase
+        run: | 
+          dotnet build -c ${{ matrix.build_mode }}
+          echo "Checksum: $(sha512sum bin/x64/${{ matrix.build_mode }}/Travelcase.dll)"

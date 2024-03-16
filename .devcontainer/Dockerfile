@@ -8,4 +8,4 @@ ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 RUN adduser --disabled-password --gecos "" dev
 
 # Install required dependencies.
-RUN apk add --update openssh
+RUN apk add --update openssh bash
