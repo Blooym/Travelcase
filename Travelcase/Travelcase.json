@@ -6,6 +6,11 @@
   "Description": "Allows for automatic changing of Gearsets/Glamours upon entering new zones, with a 'Roleplay Only' mode for those who want to only use it for RP purposes.",
   "RepoUrl": "https://github.com/Blooym/Travelcase",
   "IconUrl": "https://raw.githubusercontent.com/Blooym/Travelcase/main/.assets/icon.png",
-  "Tags": ["Glamour", "Gearsets"],
-  "CategoryTags": ["Utility"]
+  "Tags": [
+    "Glamour",
+    "Gearsets"
+  ],
+  "CategoryTags": [
+    "Utility"
+  ]
 }
