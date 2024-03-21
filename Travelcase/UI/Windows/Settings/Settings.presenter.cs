@@ -36,7 +36,12 @@ namespace Travelcase.UI.Windows.Settings
             Loc.ExportLocalizable();
             File.Copy(Path.Combine(path, "Travelcase_Localizable.json"), Path.Combine(path, "en.json"), true);
             Directory.SetCurrentDirectory(directory);
-            PluginService.PluginInterface.UiBuilder.AddNotification("Localization exported successfully.", PluginConstants.PluginName, NotificationType.Success);
+            PluginService.NotificationManager.AddNotification(new()
+            {
+                Content = "Localization exported successfully.",
+                Title = PluginConstants.PluginName,
+                Type = NotificationType.Success
+            });
         }
 #endif
     }

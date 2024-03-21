@@ -17,6 +17,7 @@ namespace Travelcase.Base
         [PluginService] internal static ICondition Condition { get; private set; } = null!;
         [PluginService] internal static IFramework Framework { get; private set; } = null!;
         [PluginService] internal static IPluginLog PluginLog { get; private set; } = null!;
+        [PluginService] internal static INotificationManager NotificationManager { get; private set; } = null!;
 
         internal static CommandManager CommandManager { get; private set; } = null!;
         internal static WindowManager WindowManager { get; private set; } = null!;
