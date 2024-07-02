@@ -6,15 +6,10 @@ namespace Travelcase
     internal sealed class TravelcasePlugin : IDalamudPlugin
     {
         /// <summary>
-        ///     The plugin name, fetched from PluginConstants.
-        /// </summary>
-        public string Name { get; } = PluginConstants.PluginName;
-
-        /// <summary>
         ///     The plugin's main entry point.
         /// </summary>
         /// <param name="pluginInterface"></param>
-        public TravelcasePlugin(DalamudPluginInterface pluginInterface)
+        public TravelcasePlugin(IDalamudPluginInterface pluginInterface)
         {
             pluginInterface.Create<PluginService>();
             PluginService.Initialize();

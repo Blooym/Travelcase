@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using CheapLoc;
 using Dalamud.Interface.ImGuiFileDialog;
-using Dalamud.Interface.Internal.Notifications;
+using Dalamud.Interface.ImGuiNotification;
 using Travelcase.Base;
 
 namespace Travelcase.UI.Windows.Settings

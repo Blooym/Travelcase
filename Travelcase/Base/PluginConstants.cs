@@ -13,6 +13,6 @@ namespace Travelcase.Base
         /// <summary>
         ///     The support button URL.
         /// </summary>
-        internal const string DonateButtonUrl = "https://github.com/sponsors/Blooym";
+        internal const string DonateButtonUrl = "https://go.blooym.dev/donate";
     }
 }
