@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="Dalamud.Plugin.Bootstrap.targets" />
-
+<Project Sdk="Dalamud.NET.Sdk/11.0.0">
   <PropertyGroup>
     <Title>Travelcase</Title>
     <Authors>Blooym</Authors>
-    <Version>0.2.1.0</Version>
+    <Version>0.2.2.0</Version>
     <Description>Pack your gearsets and glamours up and change into them when entering specified
       zones.</Description>
     <RepositoryUrl>https://github.com/Blooym/Travelcase</RepositoryUrl>

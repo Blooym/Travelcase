@@ -39,9 +39,9 @@ namespace Travelcase.Managers
 
             if (this.storedTerritory != territory && config?.IsEnabled == true)
             {
-                if (config.OnlyInRoleplayMode && PluginService.ClientState.LocalPlayer?.OnlineStatus.Id != 22)
+                if (config.OnlyInRoleplayMode && PluginService.ClientState.LocalPlayer?.OnlineStatus.RowId != 22)
                 {
-                    PluginService.PluginLog.Info($"{PluginService.ClientState.LocalPlayer?.OnlineStatus.Id}");
+                    PluginService.PluginLog.Info($"{PluginService.ClientState.LocalPlayer?.OnlineStatus.RowId}");
                     PluginService.PluginLog.Debug("GearsetManager(OnTerritoryChanged): Player is not in roleplay mode, skipping gearset change.");
                     return;
                 }

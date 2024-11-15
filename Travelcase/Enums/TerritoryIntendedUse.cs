@@ -3,7 +3,7 @@ namespace Travelcase.Enums
     /// <summary>
     ///     A mapping of territory intended use values to their respective names.
     /// </summary>
-    public enum TerritoryIntendedUse : byte
+    public enum TerritoryIntendedUse : ulong
     {
         City = 0,
         OpenWorld = 1,

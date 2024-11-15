@@ -33,14 +33,13 @@ namespace Travelcase.Base
         /// <summary>
         ///     A dictionary of gearset bindings, where the key is the territoryID and the value is the gearset configuration.
         /// </summary>
-        public Dictionary<uint, Gearset> GearsetBindings { get; set; } = new();
+        public Dictionary<uint, Gearset> GearsetBindings { get; set; } = [];
 
         /// <summary>
         ///     Information about a gearset configuration, such as the number and linked glamour plate.
         /// </summary>
         public sealed class Gearset
         {
-            public string Name { get; set; } = string.Empty;
             public int GearsetNumber { get; set; }
             public byte GlamourPlate { get; set; }
             public bool Enabled { get; set; }
@@ -81,7 +80,7 @@ namespace Travelcase.Base
                 }
 
                 this.CharacterInfo.Name = PluginService.ClientState.LocalPlayer?.Name.TextValue;
-                this.CharacterInfo.World = PluginService.ClientState.LocalPlayer?.HomeWorld.GameData?.Name.RawString;
+                this.CharacterInfo.World = PluginService.ClientState.LocalPlayer?.HomeWorld.ValueNullable?.Name.ToString();
 
                 Directory.CreateDirectory(GetConfigDir());
                 var configObj = JsonConvert.SerializeObject(this, Formatting.Indented);

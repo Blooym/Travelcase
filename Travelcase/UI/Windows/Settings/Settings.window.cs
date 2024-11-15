@@ -97,7 +97,7 @@ namespace Travelcase.UI.Windows.Settings
                 }
 
                 // Table of all zones.
-                var zonesToDraw = DataUtil.AllowedZones?.Where(z => z.PlaceName?.Value?.Name.ToString().Contains(this.searchQuery, StringComparison.OrdinalIgnoreCase) ?? false).ToList();
+                var zonesToDraw = DataUtil.AllowedZones?.Where(z => z.PlaceName.ValueNullable?.Name.ToString().Contains(this.searchQuery, StringComparison.OrdinalIgnoreCase) ?? false).ToList();
                 if (zonesToDraw?.Count > 0)
                 {
                     if (ImGui.BeginTable("##SettingsTable", 4, ImGuiTableFlags.ScrollY))
@@ -111,14 +111,14 @@ namespace Travelcase.UI.Windows.Settings
 
                         foreach (var t in zonesToDraw)
                         {
-                            var name = t.PlaceName.Value?.Name;
+                            var name = t.PlaceName.ValueNullable?.Name.ToString();
                             if (string.IsNullOrEmpty(name?.ToString()))
                             {
                                 continue;
                             }
 
                             config.GearsetBindings.TryGetValue(t.RowId, out var binding);
-                            binding ??= config.GearsetBindings[t.RowId] = new() { Name = t.PlaceName.Value?.Name ?? "???" };
+                            binding ??= config.GearsetBindings[t.RowId] = new();
 
                             var isEnabled = binding.Enabled;
                             var slot = binding.GearsetNumber + 1;

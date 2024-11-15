@@ -21,10 +21,10 @@ namespace Travelcase.Managers
         /// <summary>
         ///     All windows managed by the WindowManager.
         /// </summary>
-        private readonly List<Window> windows = new()
-        {
+        private readonly List<Window> windows =
+        [
             new SettingsWindow(),
-        };
+        ];
 
         /// <summary>
         ///     Initializes the WindowManager and associated resources.
@@ -62,7 +62,7 @@ namespace Travelcase.Managers
         /// </summary>
         /// <param name="e"></param>
         /// <param name="args"></param>
-        public void OnLogout()
+        public void OnLogout(int type, int code)
         {
             foreach (var window in this.windows)
             {
