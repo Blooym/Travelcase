@@ -1,11 +1,7 @@
 using System;
-using System.Linq;
 using Dalamud.Game.Command;
-using Travelcase.Base;
-using Travelcase.Localization;
-using Travelcase.UI.Windows.Settings;
 
-namespace Travelcase.Managers
+namespace Travelcase.Command
 {
     /// <summary>
     ///     Initializes and manages all commands and command-events for the plugin.
@@ -17,12 +13,16 @@ namespace Travelcase.Managers
         /// <summary>
         ///     Initializes the CommandManager and its resources.
         /// </summary>
-        public CommandManager() => PluginService.Commands.AddHandler(SettingsCommand, new CommandInfo(this.OnCommand) { HelpMessage = TCommands.SettingsHelp, ShowInHelp = true });
+        public CommandManager() => Travelcase.Commands.AddHandler(SettingsCommand, new CommandInfo(this.OnCommand)
+        {
+            HelpMessage = "Opens the Travelcase configuration window when no arguments are specified. '/travelcase toggle' to toggle the plugin, '/travelcase rp' to toggle roleplay mode.",
+            ShowInHelp = true
+        });
 
         /// <summary>
         ///     Dispose of the PluginCommandManager and its resources.
         /// </summary>
-        public void Dispose() => PluginService.Commands.RemoveHandler(SettingsCommand);
+        public void Dispose() => Travelcase.Commands.RemoveHandler(SettingsCommand);
 
         /// <summary>
         ///     Event handler for when a command is issued by the user.
@@ -32,24 +32,24 @@ namespace Travelcase.Managers
         ///
         private void OnCommand(string command, string args)
         {
-            var windowSystem = PluginService.WindowManager.WindowSystem;
+            var hasConfig = Travelcase.PluginConfiguration.CharacterConfigurations.TryGetValue(Travelcase.ClientState.LocalContentId, out var config);
+            if (!hasConfig || config is null)
+            {
+                return;
+            }
 
-            var config = PluginService.CharacterConfig?.CurrentConfig;
             switch (command)
             {
                 case SettingsCommand when args == "toggle":
                     if (config != null)
-                    { config.IsEnabled = !config.IsEnabled; config.Save(); }
+                    { config.PluginEnabled = !config.PluginEnabled; Travelcase.PluginConfiguration.Save(); }
                     break;
                 case SettingsCommand when args == "rp":
                     if (config != null)
-                    { config.OnlyInRoleplayMode = !config.OnlyInRoleplayMode; config.Save(); }
+                    { config.RoleplayOnly = !config.RoleplayOnly; Travelcase.PluginConfiguration.Save(); }
                     break;
                 case SettingsCommand when args?.Length == 0:
-                    if (windowSystem.Windows.FirstOrDefault(w => w.WindowName == TWindowNames.Settings) is SettingsWindow window)
-                    {
-                        window.IsOpen = !window.IsOpen;
-                    }
+                    Travelcase.WindowManager.ToggleConfigWindow();
                     break;
             }
         }
