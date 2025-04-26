@@ -67,6 +67,7 @@ namespace Travelcase.UI.Windows
             {
                 Travelcase.PluginConfiguration.Save();
             }
+            ImGui.EndDisabled();
 
             // Zone list.
             ImGui.SetNextItemWidth(-1);
@@ -74,6 +75,7 @@ namespace Travelcase.UI.Windows
             var filteredTerritories = TerritoryList.Where(x => x.Value.Contains(this.searchQuery, StringComparison.InvariantCultureIgnoreCase));
             if (filteredTerritories.Any())
             {
+                ImGui.BeginDisabled(!config.PluginEnabled);
                 if (ImGui.BeginTable("##SettingsTable", 4, ImGuiTableFlags.ScrollY))
                 {
                     ImGui.TableSetupScrollFreeze(0, 1);
@@ -117,7 +119,6 @@ namespace Travelcase.UI.Windows
                         var glamourPlate = (int)gearset.GlamourPlate;
                         if (ImGui.InputInt($"##{t.Key}GlamourPlateSlot", ref glamourPlate, 1, 1))
                         {
-                            glamourPlate = Math.Clamp(glamourPlate, 0, 20);
                             if (gearset.GlamourPlate != glamourPlate)
                             {
                                 gearset.GlamourPlate = (byte)glamourPlate;
@@ -128,8 +129,8 @@ namespace Travelcase.UI.Windows
                         ImGui.EndDisabled();
                     }
                     ImGui.EndTable();
+                    ImGui.EndDisabled();
                 }
-                ImGui.EndDisabled();
             }
             else
             {
