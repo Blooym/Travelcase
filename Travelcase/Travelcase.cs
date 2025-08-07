@@ -24,7 +24,6 @@ namespace Travelcase
         [PluginService] public static ICondition Condition { get; private set; }
         [PluginService] public static IFramework Framework { get; private set; }
         [PluginService] public static IPluginLog PluginLog { get; private set; }
-        [PluginService] public static INotificationManager NotificationManager { get; private set; }
         public static CommandManager CommandManager { get; private set; }
         public static WindowManager WindowManager { get; private set; }
         public static PluginConfiguration PluginConfiguration { get; private set; }
