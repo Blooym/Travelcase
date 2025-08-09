@@ -16,7 +16,7 @@
       "Utility",
       "Other"
     ],
-    "DalamudApiLevel": 12,
+    "DalamudApiLevel": 13,
     "LoadPriority": 0,
     "IconUrl": "https://raw.githubusercontent.com/Blooym/Travelcase/main/.assets/icon.png",
     "IsHide": "False",
